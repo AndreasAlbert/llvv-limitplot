@@ -4,16 +4,17 @@ For each paramater point, the plotting scripts read the appropriate root file pr
 By default, the scripts expect as an argument a top-level directory containing a separate folder for each parameter 
 point of the model.
 E.g.
+```
   ADD/1
   ADD/2
   ADD/3
-
+```
 and so on.
 Multiple parameters are divided by underscores, e.g.
-
+```
   MV/10_50
   MV/10_100
-  
+```  
 and so on for vector-mediated DM production.
 
 For details, best check the code, it is quite easy to understand.
