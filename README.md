@@ -23,14 +23,14 @@ To run everything, I usually do:
 
 ```
 carddir=/somepath/
-root -l -b -q $(readlink -e ~/code/llvv/limitplots/plot2D_DMV.cc)"(\"$carddir/MA\")"
-root -l -b -q $(readlink -e ~/code/llvv/limitplots/plot2D_DMV.cc)"(\"$carddir/MV\")"
-root -l -b -q $(readlink -e ~/code/llvv/limitplots/plotDM_EWK_1D.cc)"(\"$carddir/MEWK\")"
-root -l -b -q $(readlink -e ~/code/llvv/limitplots/plotDM_EWK_K1K2.cc)"(\"$carddir/MEWK\")"
-root -l -b -q $(readlink -e ~/code/llvv/limitplots/plotDM_EWK_K1K2_mu.cc)"(\"$carddir/MEWK\")"
-root -l -b -q $(readlink -e ~/code/llvv/limitplots/plotUnpart.cc)"(\"$carddir/Unpart\")"
-root -l -b -q $(readlink -e ~/code/llvv/limitplots/plotADD.cc)"(\"$carddir/ADD\")"
+root -l -b -q plot2D_DMV.cc"(\"$carddir/MA\")"
+root -l -b -q plot2D_DMV.cc"(\"$carddir/MV\")"
+root -l -b -q plotDM_EWK_1D.cc"(\"$carddir/MEWK\")"
+root -l -b -q plotDM_EWK_K1K2.cc"(\"$carddir/MEWK\")"
+root -l -b -q plotDM_EWK_K1K2_mu.cc"(\"$carddir/MEWK\")"
+root -l -b -q plotUnpart.cc"(\"$carddir/Unpart\")"
+root -l -b -q plotADD.cc"(\"$carddir/ADD\")"
 
-root -l -b -q ~/code/llvv/limitplots/plot_wimpxs_sd.cc;
-root -l -b -q ~/code/llvv/limitplots/plot_wimpxs_si.cc;
+root -l -b -q plot_wimpxs_sd.cc;
+root -l -b -q plot_wimpxs_si.cc;
 ````
