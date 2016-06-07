@@ -182,10 +182,10 @@ void plotDM_EWK_K1K2_mu(TString myfolder = "")
     canv->SaveAs("EWKDM_13TeV_k1k2_mu.png");
     canv->SaveAs("EWKDM_13TeV_k1k2_mu.pdf");
 
-    TFile* outfile = new TFile("out.root","RECREATE");
-    h_Limit->SetDirectory(outfile);
-    h_Limit->Write();
-    outfile->Close();
-    
+    //~ TFile* outfile = new TFile("out.root","RECREATE");
+    //~ h_Limit->SetDirectory(outfile);
+    //~ h_Limit->Write();
+    //~ outfile->Close();
+
     delete canv;
 }

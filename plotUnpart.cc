@@ -30,7 +30,10 @@ std::vector<int> du = {101,102,104,106,109,110,120,130,140,150,160,170,180,190,2
 std::vector<double> r_exp;
 void plotUnpart(TString myfolder = "")
 {
-    TGraph *monoZ = new TGraph();
+    TGraph *monoZ_obs = new TGraph();
+    TGraph *monoZ_exp = new TGraph();
+    TGraph *monoZ_p1s = new TGraph();
+    TGraph *monoZ_m1s = new TGraph();
     int npoint=0;
     for ( auto & idu: du ) {
         TFile myfile( myfolder+"/"+Convert2TString(idu)+"/higgsCombineZwimps01jets.Asymptotic.mH1.root" );
@@ -41,7 +44,7 @@ void plotUnpart(TString myfolder = "")
             Double_t exp;
             Double_t p1s;
             Double_t p2s;
-            
+
             if ( myfile.IsOpen() && !myfile.IsZombie() ) {
 
                 Double_t lim, limerr;
@@ -75,10 +78,17 @@ void plotUnpart(TString myfolder = "")
 
             }
             r_exp.push_back(exp);
-            
-            double lambda = 15/pow(exp,100.0/idu);
-            std::cout << float(idu)/100 << " " << exp <<  " " << lambda << std::endl;
-            monoZ->SetPoint(npoint++,float(idu)/100,lambda);
+
+            double lambda_exp = 15/pow(exp,100.0/idu);
+            double lambda_p1s = 15/pow(p1s,100.0/idu);
+            double lambda_m1s = 15/pow(m1s,100.0/idu);
+            double lambda_obs = 15/pow(obs,100.0/idu);
+            //~ std::cout << float(idu)/100 << " " << exp <<  " " << lambda << std::endl;
+            monoZ_exp->SetPoint(npoint,float(idu)/100,lambda_exp);
+            monoZ_p1s->SetPoint(npoint,float(idu)/100,lambda_p1s);
+            monoZ_m1s->SetPoint(npoint,float(idu)/100,lambda_m1s);
+            monoZ_obs->SetPoint(npoint,float(idu)/100,lambda_obs);
+            npoint++;
             myfile.Close();
     }
     // Use TDR as basis
@@ -107,17 +117,37 @@ void plotUnpart(TString myfolder = "")
 
     TMultiGraph *mg = new TMultiGraph();
 
-    
-    TGraph *monoZ2 = (TGraph*) monoZ->Clone("monoZ2");
-    monoZ2->SetLineWidth(-803);
-    monoZ2->SetFillStyle(3005);
-    monoZ2->SetLineColor(kOrange-1);
 
-    monoZ->SetFillColor(kOrange-2);
-    monoZ->SetLineColor(kOrange-1);
-    monoZ->SetLineWidth(-9003);
-    monoZ->SetMarkerStyle(21);
-    monoZ->SetMarkerSize(2);
+    TGraph *monoZ_exp2 = (TGraph*) monoZ_exp->Clone("monoZ_exp2");
+    monoZ_exp2->SetLineWidth(-803);
+    monoZ_exp2->SetFillStyle(3005);
+    monoZ_exp2->SetLineColor(kOrange-1);
+    monoZ_exp->SetFillColor(kOrange-2);
+    monoZ_exp->SetLineColor(kOrange-1);
+    monoZ_exp->SetLineWidth(-9003);
+    monoZ_exp->SetMarkerStyle(21);
+    monoZ_exp->SetMarkerSize(2);
+
+    monoZ_p1s->SetLineColor(kOrange-1);
+    monoZ_m1s->SetLineColor(kOrange-1);
+    monoZ_p1s->SetLineWidth(6);
+    monoZ_m1s->SetLineWidth(6);
+    monoZ_p1s->SetLineStyle(2);
+    monoZ_m1s->SetLineStyle(2);
+
+
+
+
+
+
+    monoZ_obs->SetLineColor(kBlack);
+    monoZ_obs->SetLineWidth(4);
+
+
+
+
+
+
 
     TGraph *monoJet = new TGraph(sizeof(monoJetX)/sizeof(*monoJetX),monoJetX,monoJetY);
     monoJet->SetLineWidth(-602);
@@ -138,8 +168,11 @@ void plotUnpart(TString myfolder = "")
     lep->SetLineColor(kOrange+3);
     lep->SetLineWidth(-9003);
 
-    mg->Add(monoZ);
-    mg->Add(monoZ2);
+    mg->Add(monoZ_obs);
+    mg->Add(monoZ_exp);
+    //~ mg->Add(monoZ_exp2);
+    mg->Add(monoZ_p1s);
+    mg->Add(monoZ_m1s);
     mg->Add(monoJet);
     mg->Add(lep);
     mg->Add(lep2);
@@ -170,7 +203,7 @@ void plotUnpart(TString myfolder = "")
 
 
 
-    float posx1 = 0.18+0.47;
+    float posx1 = 0.18+0.4;
     float posx2 = 0.5+0.47;
     float posy1 = 0.65-0.04;
     float posy2 = 0.8-0.04;
@@ -181,7 +214,9 @@ void plotUnpart(TString myfolder = "")
     leg->SetTextFont(42);
     leg->SetBorderSize(0);
 
-    leg->AddEntry(monoZ, "CMS monoZ", "FL");
+    leg->AddEntry(monoZ_obs, "CMS monoZ observed", "L");
+    leg->AddEntry(monoZ_exp, "CMS monoZ expected", "FL");
+    leg->AddEntry(monoZ_p1s, "CMS monoZ expected #pm1#sigma", "L");
     leg->AddEntry(monoJet, "CMS monojet", "FL");
     leg->AddEntry(lep, "LEP reinterpretation", "FL");
 

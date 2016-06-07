@@ -21,7 +21,7 @@
 using namespace std;
 
 
-void plotDM_EWK_K1K2(TString myfolder = "")
+void plotDM_EWK_K1K2_mu_obs(TString myfolder = "")
 {
 
 
@@ -121,12 +121,12 @@ void plotDM_EWK_K1K2(TString myfolder = "")
 
 
             //Lambda
-            double Lambda_exp = 3000./pow(exp*1.0e6,1./6.);
-            double Lambda_obs = 3000./pow(obs*1.0e6,1./6.);
-            double Lambda_m1s = 3000./pow(m1s*1.0e6,1./6.);
-            double Lambda_m2s = 3000./pow(m2s*1.0e6,1./6.);
-            double Lambda_p1s = 3000./pow(p1s*1.0e6,1./6.);
-            double Lambda_p2s = 3000./pow(p2s*1.0e6,1./6.);
+            double Lambda_exp = exp;
+            double Lambda_obs = obs;
+            double Lambda_m1s = m1s;
+            double Lambda_m2s = m2s;
+            double Lambda_p1s = p1s;
+            double Lambda_p2s = p2s;
 
 
             Lambda_p2s =  Lambda_p2s - Lambda_exp;
@@ -135,7 +135,7 @@ void plotDM_EWK_K1K2(TString myfolder = "")
             Lambda_m2s =  Lambda_exp - Lambda_m2s;
             Lambda_m1s =  Lambda_exp - Lambda_m1s;
 
-            h_Limit->SetPoint(npoint,dm_masses[nmx],K1_num[nk1],Lambda_exp);
+            h_Limit->SetPoint(npoint,dm_masses[nmx],K1_num[nk1],obs);
             std::cout << npoint<< " " <<dm_masses[nmx]<<" " <<K1_num[nk1]<<" " <<exp << std::endl;
             npoint++;
         }
@@ -157,35 +157,35 @@ void plotDM_EWK_K1K2(TString myfolder = "")
     t1->cd();
     t1->SetLogx(false);
     t1->SetLogy(true);
-    t1->SetLogz(false);
+    t1->SetLogz(true);
     t1->SetRightMargin(0.2);
 
- 
     TH2D* h2 = new TH2D("h2","",1000,0,1300,100,0.1,10);
 
     h_Limit->SetHistogram(h2);
     h_Limit->Draw("COLZ");
 
-    h_Limit->SetMaximum(6e2);
-    h_Limit->SetMinimum(2e2);
+    h_Limit->SetMaximum(5);
+    h_Limit->SetMinimum(5e-3);
 
     h_Limit->GetXaxis()->SetTitle("#it{m_{#chi}} [GeV]");
     h_Limit->GetYaxis()->SetTitle("Coupling c_{1}/c_{2}");
-    h_Limit->GetZaxis()->SetTitle("90% CL expected limit on #Lambda [GeV]");
-    h_Limit->GetZaxis()->SetRangeUser(2e2,6e2);
+    h_Limit->GetZaxis()->SetTitle("90% CL observed limit on #sigma_{obs}/#sigma_{theo}");
+    h_Limit->GetZaxis()->SetRangeUser(5e-3,5);
 
-    
+
+
     addText(0.7-0.15,0.995-0.15,0.94,0.996,"2.3 fb^{-1} (13 TeV)",kBlack);
     addText(0.17,0.37,0.835+0.01,0.898+0.01,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
-    addText(0.17,0.37,0.2,0.3,"c_{2}=1",kBlack);
+    addText(0.17,0.47,0.15,0.35,"#Lambda=300 GeV, c_{2}=1",kBlack);
 
-    canv->SaveAs("EWKDM_13TeV_k1k2.png");
-    canv->SaveAs("EWKDM_13TeV_k1k2.pdf");
+    canv->SaveAs("EWKDM_13TeV_k1k2_mu_obs.png");
+    canv->SaveAs("EWKDM_13TeV_k1k2_mu_obs.pdf");
 
     //~ TFile* outfile = new TFile("out.root","RECREATE");
     //~ h_Limit->SetDirectory(outfile);
     //~ h_Limit->Write();
     //~ outfile->Close();
-    
+
     delete canv;
 }

@@ -54,6 +54,7 @@ void plotDM_EWK_1D(TString myfolder = "")
 
 
     TGraph* h_exp = new TGraph();
+    TGraph* h_obs = new TGraph();
     TGraphAsymmErrors* h_1s = new TGraphAsymmErrors();
     TGraphAsymmErrors* h_2s = new TGraphAsymmErrors();
 
@@ -130,12 +131,13 @@ void plotDM_EWK_1D(TString myfolder = "")
         h_1s    ->SetPointError(npoint,0,0,Lambda_p1s,Lambda_m1s);
         h_2s    ->SetPointError(npoint,0,0,Lambda_p2s,Lambda_m2s);
 
+        h_obs->SetPoint(npoint, dm_masses[nmx],Lambda_obs );
         npoint++;
     }
     // Use TDR as basis
     TStyle * TDR = createTdrStyle();
     TDR->cd();
-    
+
     std::cout << "Create Canvas and pad." << std::endl;
     TCanvas *canv = new TCanvas("c", "c", 600,600);
     canv->cd();
@@ -152,17 +154,21 @@ void plotDM_EWK_1D(TString myfolder = "")
     h_exp->SetMarkerStyle(24);
     h_exp->SetLineStyle(2);
 
+    h_obs->SetLineStyle(1);
+    h_obs->SetMarkerStyle(20);
+
     h_1s->SetFillColor(kGreen);
     h_2s->SetFillColor(kYellow);
 
     h_2s->SetMinimum(150);
     h_2s->SetMaximum(900);
-    
+
 
     h_2s->Draw("3A");
     h_1s->Draw("3,SAME");
     h_exp->Draw("LP,SAME");
-    
+    h_obs->Draw("LP,SAME");
+
     h_2s->GetXaxis()->SetTitle( "m_{#chi} [GeV]" );
 
     h_2s->GetXaxis()->SetRangeUser(-200,1350);
@@ -176,6 +182,7 @@ void plotDM_EWK_1D(TString myfolder = "")
     leg->SetTextFont(42);
     leg->SetBorderSize(0);
 
+    leg->AddEntry( h_obs, "Observed", "PL" );
     leg->AddEntry( h_exp, "Expected", "PL" );
     leg->AddEntry( h_1s, "Expected #pm 1#sigma", "F" );
     leg->AddEntry( h_2s, "Expected #pm 2#sigma", "F" );
@@ -186,6 +193,6 @@ void plotDM_EWK_1D(TString myfolder = "")
     leg->Draw();
     canv->SaveAs("EWKDM_13TeV_Lambda.png");
     canv->SaveAs("EWKDM_13TeV_Lambda.pdf");
-    
+
     delete canv;
 }

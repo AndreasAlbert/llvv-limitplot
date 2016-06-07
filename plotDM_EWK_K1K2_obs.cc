@@ -21,7 +21,7 @@
 using namespace std;
 
 
-void plotDM_EWK_K1K2(TString myfolder = "")
+void plotDM_EWK_K1K2_obs(TString myfolder = "")
 {
 
 
@@ -135,7 +135,7 @@ void plotDM_EWK_K1K2(TString myfolder = "")
             Lambda_m2s =  Lambda_exp - Lambda_m2s;
             Lambda_m1s =  Lambda_exp - Lambda_m1s;
 
-            h_Limit->SetPoint(npoint,dm_masses[nmx],K1_num[nk1],Lambda_exp);
+            h_Limit->SetPoint(npoint,dm_masses[nmx],K1_num[nk1],Lambda_obs);
             std::cout << npoint<< " " <<dm_masses[nmx]<<" " <<K1_num[nk1]<<" " <<exp << std::endl;
             npoint++;
         }
@@ -160,7 +160,7 @@ void plotDM_EWK_K1K2(TString myfolder = "")
     t1->SetLogz(false);
     t1->SetRightMargin(0.2);
 
- 
+
     TH2D* h2 = new TH2D("h2","",1000,0,1300,100,0.1,10);
 
     h_Limit->SetHistogram(h2);
@@ -171,21 +171,21 @@ void plotDM_EWK_K1K2(TString myfolder = "")
 
     h_Limit->GetXaxis()->SetTitle("#it{m_{#chi}} [GeV]");
     h_Limit->GetYaxis()->SetTitle("Coupling c_{1}/c_{2}");
-    h_Limit->GetZaxis()->SetTitle("90% CL expected limit on #Lambda [GeV]");
+    h_Limit->GetZaxis()->SetTitle("90% CL observed limit on #Lambda [GeV]");
     h_Limit->GetZaxis()->SetRangeUser(2e2,6e2);
 
-    
+
     addText(0.7-0.15,0.995-0.15,0.94,0.996,"2.3 fb^{-1} (13 TeV)",kBlack);
     addText(0.17,0.37,0.835+0.01,0.898+0.01,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
     addText(0.17,0.37,0.2,0.3,"c_{2}=1",kBlack);
 
-    canv->SaveAs("EWKDM_13TeV_k1k2.png");
-    canv->SaveAs("EWKDM_13TeV_k1k2.pdf");
+    canv->SaveAs("EWKDM_13TeV_k1k2_obs.png");
+    canv->SaveAs("EWKDM_13TeV_k1k2_obs.pdf");
 
     //~ TFile* outfile = new TFile("out.root","RECREATE");
     //~ h_Limit->SetDirectory(outfile);
     //~ h_Limit->Write();
     //~ outfile->Close();
-    
+
     delete canv;
 }
