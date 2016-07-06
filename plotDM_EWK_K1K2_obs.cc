@@ -65,7 +65,10 @@ void plotDM_EWK_K1K2_obs(TString myfolder = "")
 
 
 
-    TGraph2D* h_Limit = new TGraph2D();
+    TGraph2D* h_obs = new TGraph2D();
+    TGraph2D* h_exp = new TGraph2D();
+    TGraph2D* h_p1s = new TGraph2D();
+    TGraph2D* h_m1s = new TGraph2D();
 
     int npoint=0;
 
@@ -128,19 +131,29 @@ void plotDM_EWK_K1K2_obs(TString myfolder = "")
             double Lambda_p1s = 3000./pow(p1s*1.0e6,1./6.);
             double Lambda_p2s = 3000./pow(p2s*1.0e6,1./6.);
 
+            h_obs->SetPoint(npoint,dm_masses[nmx],K1_num[nk1],Lambda_obs);
+            h_exp->SetPoint(npoint,dm_masses[nmx],K1_num[nk1],Lambda_exp);
+            h_p1s->SetPoint(npoint,dm_masses[nmx],K1_num[nk1],Lambda_p1s);
+            h_m1s->SetPoint(npoint,dm_masses[nmx],K1_num[nk1],Lambda_m1s);
 
-            Lambda_p2s =  Lambda_p2s - Lambda_exp;
-            Lambda_p1s =  Lambda_p1s - Lambda_exp;
-
-            Lambda_m2s =  Lambda_exp - Lambda_m2s;
-            Lambda_m1s =  Lambda_exp - Lambda_m1s;
-
-            h_Limit->SetPoint(npoint,dm_masses[nmx],K1_num[nk1],Lambda_obs);
             std::cout << npoint<< " " <<dm_masses[nmx]<<" " <<K1_num[nk1]<<" " <<exp << std::endl;
             npoint++;
         }
 
     }
+    TGraph*   exclusion_exp =  InterpolateDM(tag,h_exp,300,800,1400,0.1,5);
+    TGraph*   exclusion_p1s =  InterpolateDM(tag,h_p1s,300,800,1400,0.1,5);
+    TGraph*   exclusion_m1s =  InterpolateDM(tag,h_m1s,300,800,1400,0.1,5);
+    TGraph*   exclusion_obs =  InterpolateDM(tag,h_obs,300,800,1400,0.1,5);
+    exclusion_exp -> SetMarkerColor( kBlack );
+    exclusion_p1s -> SetMarkerColor( kGray );
+    exclusion_m1s -> SetMarkerColor( kGray );
+    exclusion_obs -> SetMarkerColor( kRed );
+    exclusion_exp -> SetLineColor( kBlack );
+    exclusion_p1s -> SetLineColor( kGray );
+    exclusion_m1s -> SetLineColor( kGray );
+    exclusion_obs -> SetLineColor( kRed );
+
 
     // Use TDR as basis
     TStyle * TDR = createTdrStyle();
@@ -163,29 +176,23 @@ void plotDM_EWK_K1K2_obs(TString myfolder = "")
 
     TH2D* h2 = new TH2D("h2","",1000,0,1300,100,0.1,10);
 
-    h_Limit->SetHistogram(h2);
-    h_Limit->Draw("COLZ");
+    h_obs->SetHistogram(h2);
+    h_obs->Draw("COLZ");
 
-    h_Limit->SetMaximum(6e2);
-    h_Limit->SetMinimum(2e2);
+    h_obs->SetMaximum(6e2);
+    h_obs->SetMinimum(2e2);
 
-    h_Limit->GetXaxis()->SetTitle("#it{m_{#chi}} [GeV]");
-    h_Limit->GetYaxis()->SetTitle("Coupling c_{1}/c_{2}");
-    h_Limit->GetZaxis()->SetTitle("90% CL observed limit on #Lambda [GeV]");
-    h_Limit->GetZaxis()->SetRangeUser(2e2,6e2);
+    h_obs->GetXaxis()->SetTitle("#it{m_{#chi}} [GeV]");
+    h_obs->GetYaxis()->SetTitle("Coupling c_{1}/c_{2}");
+    h_obs->GetZaxis()->SetTitle("90% CL observed limit on #Lambda [GeV]");
+    h_obs->GetZaxis()->SetRangeUser(2e2,6e2);
 
 
     addText(0.7-0.15,0.995-0.15,0.94,0.996,"2.3 fb^{-1} (13 TeV)",kBlack);
     addText(0.17,0.37,0.835+0.01,0.898+0.01,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
     addText(0.17,0.37,0.2,0.3,"c_{2}=1",kBlack);
-
     canv->SaveAs("EWKDM_13TeV_k1k2_obs.png");
     canv->SaveAs("EWKDM_13TeV_k1k2_obs.pdf");
-
-    //~ TFile* outfile = new TFile("out.root","RECREATE");
-    //~ h_Limit->SetDirectory(outfile);
-    //~ h_Limit->Write();
-    //~ outfile->Close();
 
     delete canv;
 }

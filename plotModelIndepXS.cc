@@ -38,11 +38,11 @@ void plotModelIndepXS(TString myfolder)
 {
 
     double lumi = 2300;
-    
+
     // Use TDR as basis
     TStyle * TDR = createTdrStyle();
     TDR->cd();
-    
+
     gStyle->SetOptStat(0);
     bool is8TeV = true;
     bool savePlots = true;
@@ -59,11 +59,9 @@ void plotModelIndepXS(TString myfolder)
     t1->Draw();
     t1->cd();
     t1->SetLogy(true);
-    //t1->SetLogx(true);
-
-    //TMultiGraph *mg = new TMultiGraph();
 
     std::vector<double> x_v;
+    std::vector<double> obs_v;
     std::vector<double> exp_v;
     std::vector<double> p1s_v;
     std::vector<double> p2s_v;
@@ -73,6 +71,7 @@ void plotModelIndepXS(TString myfolder)
     TGraphAsymmErrors * gr1s = new TGraphAsymmErrors();
     TGraphAsymmErrors * gr2s = new TGraphAsymmErrors();
     TGraphAsymmErrors * grExp = new TGraphAsymmErrors();
+    TGraphAsymmErrors * grObs = new TGraphAsymmErrors();
 
     int npoints = 0;
     for( int i=1; i<=13; i+=2) {
@@ -87,7 +86,7 @@ void plotModelIndepXS(TString myfolder)
 
         if ( myfile.IsOpen() && !myfile.IsZombie() ) {
 
-            
+
 
             Double_t lim, limerr;
             TTree *t = (TTree*)myfile.Get("limit");
@@ -120,17 +119,20 @@ void plotModelIndepXS(TString myfolder)
 
             // The limits are limits on signal strengths
             // We use a signal with 10 events, so we need to multiply by 10
+            grObs->SetPoint( npoints, 70+10*i, 10 * obs / lumi );
             grExp->SetPoint( npoints, 70+10*i, 10 * exp / lumi );
             gr1s->SetPoint(  npoints, 70+10*i, 10 * exp / lumi );
             gr2s->SetPoint(  npoints, 70+10*i, 10 * exp / lumi );
+
+            grObs->SetPointError(npoints,0,0,0,0);
             grExp->SetPointError(npoints,0,0,0,0);
             gr1s->SetPointError(npoints,0,0,10 * (exp-m1s) / lumi ,10 * (p1s-exp) / lumi );
             gr2s->SetPointError(npoints,0,0,10 * (exp-m2s) /  lumi ,10 * (p2s-exp) / lumi );
 
-            //~ std::cout << (exp-m1s) / lumi << " " << exp / lumi << " " << (p1s-exp) / lumi << std::endl;
             npoints++;
 
             x_v.push_back( 70 + 10 * i );
+            obs_v.push_back( 10 * obs );
             exp_v.push_back( 10 * exp );
             p1s_v.push_back( 10 * p1s );
             p2s_v.push_back( 10 * p2s );
@@ -150,6 +152,9 @@ void plotModelIndepXS(TString myfolder)
     grExp->SetLineWidth(2);
     grExp->SetLineStyle(2);
     grExp->SetMarkerStyle(24);
+    grExp->SetLineWidth(1);
+    grExp->SetLineStyle(2);
+    grExp->SetMarkerStyle(20);
 
 
 
@@ -157,10 +162,9 @@ void plotModelIndepXS(TString myfolder)
 
     mg->Add(gr2s,"3");
     mg->Add(gr1s,"3");
-    //mg->Add(grObs,"P");
-    mg->Add(grExp,"P");
-//~ 
-    mg->Draw("3A"); //RJ
+    mg->Add(grObs,"LP");
+    mg->Add(grExp,"LP");
+    mg->Draw("3A");
 
 
 
@@ -184,7 +188,6 @@ void plotModelIndepXS(TString myfolder)
     leg->SetTextFont(42);
     leg->SetBorderSize(0);
 
-    //leg->AddEntry(grObs, "Observed", "PL");
     leg->AddEntry(grExp, "Expected", "P");
     leg->AddEntry(gr1s, "Expected #pm 1#sigma", "F");
     leg->AddEntry(gr2s, "Expected #pm 2#sigma", "F");
@@ -202,10 +205,8 @@ void plotModelIndepXS(TString myfolder)
 
     addText(0.7-0.02,0.995-0.02,0.94,0.996,"2.3 fb^{-1} (13 TeV)",kBlack);
 
-    //~ T = new TPaveText(0.50+0.01-0.025,0.97,0.68+0.01+0.025,0.82, "NDC");
 
     addText(0.1+0.06+0.05,0.3+0.2+0.05,0.835+0.02,0.898+0.02,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
-    //~ addText(0.20,0.45+0.21,0.83-0.05+0.02,0.87-0.02+0.02,"#it{pp} #rightarrow Z + E^{miss}_{T} #rightarrow #it{l^{+}l^{-}} + E^{miss}_{T}",kBlack);
 
 
     t1->RedrawAxis();
@@ -222,11 +223,11 @@ void plotModelIndepXS(TString myfolder)
     printTexLine( "Exp. upper limit",               exp_v );
     printTexLine( "Exp. upper limit -1$\\sigma$",    m1s_v );
     printTexLine( "Exp. upper limit -2$\\sigma$",    m2s_v );
+    printTexLine( "Obs. upper limit",    obs_v );
 
 
 
 
-    
     //return;
 }
 

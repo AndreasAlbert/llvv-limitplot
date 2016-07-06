@@ -51,15 +51,15 @@ void plot_wimpxs_sd()
     
     TMultiGraph *mg = new TMultiGraph();
 
-    TGraph *monoZ_13TeV_2p3fb_0 = new TGraph("interpolate_MA.txt","%lg %lg");
+    TGraph *monoZ_13TeV_2p3fb_0 = new TGraph("interpolate_MA_observed.txt","%lg %lg");
     TGraph *monoZ_13TeV_2p3fb = new TGraph();
     int nd9=monoZ_13TeV_2p3fb_0->GetN(); //get ploted array dimention
-    double ax[3000];
-    double ay[3000];
+    double m_med[3000];
+    double m_dm[3000];
     for(Int_t i=0; i<nd9; i++) {
-        monoZ_13TeV_2p3fb_0->GetPoint(i,ax[i],ay[i]);
-        double x2 = getSigmaSD(ay[i],ax[i]);
-        monoZ_13TeV_2p3fb->SetPoint(i,ax[i],x2);
+        monoZ_13TeV_2p3fb_0->GetPoint(i,m_med[i],m_dm[i]);
+        double wimpxs = getSigmaSD(m_med[i],m_dm[i]);
+        monoZ_13TeV_2p3fb->SetPoint(i,m_dm[i],wimpxs);
     }
     
     monoZ_13TeV_2p3fb->SetLineWidth(3);
@@ -174,7 +174,7 @@ void plot_wimpxs_sd()
     addText(0.21,0.5,0.92,0.82,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
 
     addText(0.77-0.05,0.97-0.05,0.755+0.1,0.818+0.1,"#splitline{#it{Axial vector}}{#it{coupling}}",kBlack);
-    addText(0.67,0.90,0.345,0.408,"#it{Expected limits}",kBlack);
+    addText(0.67,0.90,0.345,0.408,"#it{Observed limits}",kBlack);
 
     if( savePlots ) {
         string plotName = parName;

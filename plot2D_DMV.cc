@@ -20,41 +20,6 @@
 
 using namespace std;
 
-TGraph *InterpolateDM(TString tag, TGraph2D* h_Limit, double sqrt_gxgq=1.0, double MinMV=1, double MaxMV=2000, double MaxDM=1000)
-{
-    std::cout << "Start interpolation." << std::endl;
-    TGraph *h_ =  new TGraph();
-    TRandom *r0 = new TRandom();
-
-    ofstream myfile;
-    myfile.open ("interpolate_"+tag+".txt");
-
-    int maxTries = 50000;
-    int nnpts=0;
-    int Nsteps = 1000;
-    int stepsWithoutHit = 0;
-    
-    for(int j=0; j<Nsteps; j++) {
-        double DMmass = j*(MaxDM-0)/Nsteps;
-        for(int i=0; i<maxTries; i++) {
-            double Lambda=r0->Uniform(MinMV,MaxMV);
-            double mu_val = h_Limit->Interpolate(DMmass,Lambda);
-            if(fabs(mu_val-sqrt_gxgq)<1e-3) {
-                h_->SetPoint(nnpts,DMmass,Lambda);
-                nnpts++;
-                myfile << DMmass << " " << Lambda << endl;
-                break;
-            }
-            if( i == maxTries - 1 ) stepsWithoutHit++;
-        }
-        if( stepsWithoutHit > 10 ) break;
-    }
-    myfile.close();
-    std::cout << "Finish interpolation." << std::endl;
-    return h_;
-}
-
-
 void plot2D_DMV(TString myfolder = "")
 {
 

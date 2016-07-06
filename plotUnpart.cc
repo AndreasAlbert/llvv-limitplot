@@ -15,11 +15,6 @@ using namespace std;
 
 double monoZ_X[17]={1.01,1.02,1.04,1.06,1.09,1.1,1.2,1.3,1.4,1.5,1.6,1.7,1.8,1.9,2,2.2,2.20001};
 
-
-//~ double LambdaU_obs[17]={1.80784e+98,5.70012e+32,1.95592e+16,1.79032e+11,4.54755e+11,3.8425e+08,871893,6952.45,174.793,32.6115,5.05074,2.43809,1.39039,0.9446,0.685905,0.471388,0.471388};
-
-
-
 double monoJetX[5] = {1.5,1.6,1.7,1.8,1.9};
 double monoJetY[5] = {10.00,4.91,2.91,2.01,1.60};
 
@@ -32,8 +27,8 @@ void plotUnpart(TString myfolder = "")
 {
     TGraph *monoZ_obs = new TGraph();
     TGraph *monoZ_exp = new TGraph();
-    TGraph *monoZ_p1s = new TGraph();
-    TGraph *monoZ_m1s = new TGraph();
+    TGraphAsymmErrors *monoZ_1s = new TGraphAsymmErrors();
+    TGraphAsymmErrors *monoZ_2s = new TGraphAsymmErrors();
     int npoint=0;
     for ( auto & idu: du ) {
         TFile myfile( myfolder+"/"+Convert2TString(idu)+"/higgsCombineZwimps01jets.Asymptotic.mH1.root" );
@@ -82,11 +77,17 @@ void plotUnpart(TString myfolder = "")
             double lambda_exp = 15/pow(exp,100.0/idu);
             double lambda_p1s = 15/pow(p1s,100.0/idu);
             double lambda_m1s = 15/pow(m1s,100.0/idu);
+            double lambda_p2s = 15/pow(p2s,100.0/idu);
+            double lambda_m2s = 15/pow(m2s,100.0/idu);
             double lambda_obs = 15/pow(obs,100.0/idu);
-            //~ std::cout << float(idu)/100 << " " << exp <<  " " << lambda << std::endl;
+            std::cout << lambda_exp <<" " << lambda_p1s << " " <<lambda_m1s << std::endl;
             monoZ_exp->SetPoint(npoint,float(idu)/100,lambda_exp);
-            monoZ_p1s->SetPoint(npoint,float(idu)/100,lambda_p1s);
-            monoZ_m1s->SetPoint(npoint,float(idu)/100,lambda_m1s);
+            monoZ_1s->SetPoint(npoint,float(idu)/100,lambda_exp);
+            monoZ_2s->SetPoint(npoint,float(idu)/100,lambda_exp);
+
+            monoZ_1s->SetPointError(npoint,0,0,lambda_exp-lambda_p1s, lambda_m1s-lambda_exp);
+            monoZ_2s->SetPointError(npoint,0,0,lambda_exp-lambda_p2s, lambda_m2s-lambda_exp);
+
             monoZ_obs->SetPoint(npoint,float(idu)/100,lambda_obs);
             npoint++;
             myfile.Close();
@@ -119,34 +120,16 @@ void plotUnpart(TString myfolder = "")
 
 
     TGraph *monoZ_exp2 = (TGraph*) monoZ_exp->Clone("monoZ_exp2");
-    monoZ_exp2->SetLineWidth(-803);
-    monoZ_exp2->SetFillStyle(3005);
-    monoZ_exp2->SetLineColor(kOrange-1);
-    monoZ_exp->SetFillColor(kOrange-2);
-    monoZ_exp->SetLineColor(kOrange-1);
-    monoZ_exp->SetLineWidth(-9003);
-    monoZ_exp->SetMarkerStyle(21);
-    monoZ_exp->SetMarkerSize(2);
 
-    monoZ_p1s->SetLineColor(kOrange-1);
-    monoZ_m1s->SetLineColor(kOrange-1);
-    monoZ_p1s->SetLineWidth(6);
-    monoZ_m1s->SetLineWidth(6);
-    monoZ_p1s->SetLineStyle(2);
-    monoZ_m1s->SetLineStyle(2);
+    monoZ_exp->SetMarkerStyle(24);
+    monoZ_exp->SetLineStyle(2);
 
-
-
-
-
+    monoZ_1s->SetFillColor(kGreen);
+    monoZ_2s->SetFillColor(kYellow);
 
     monoZ_obs->SetLineColor(kBlack);
-    monoZ_obs->SetLineWidth(4);
-
-
-
-
-
+    monoZ_obs->SetLineWidth(2);
+    monoZ_obs->SetMarkerStyle(20);
 
 
     TGraph *monoJet = new TGraph(sizeof(monoJetX)/sizeof(*monoJetX),monoJetX,monoJetY);
@@ -168,19 +151,17 @@ void plotUnpart(TString myfolder = "")
     lep->SetLineColor(kOrange+3);
     lep->SetLineWidth(-9003);
 
-    mg->Add(monoZ_obs);
-    mg->Add(monoZ_exp);
-    //~ mg->Add(monoZ_exp2);
-    mg->Add(monoZ_p1s);
-    mg->Add(monoZ_m1s);
+    mg->Add(monoZ_2s,"3");
+    mg->Add(monoZ_1s,"3");
+    mg->Add(monoZ_exp,"PL");
+
+    mg->Add(monoZ_obs,"PL");
     mg->Add(monoJet);
     mg->Add(lep);
     mg->Add(lep2);
     mg->Draw("AC");
     mg->SetMinimum(0.3);
-    //mg->SetMaximum(500);
     mg->SetMaximum(130);
-    //~ mg->SetMaximum(1000);
     mg->GetXaxis()->SetNdivisions(512);
     mg->GetXaxis()->SetTitle(parName.c_str());
     mg->GetXaxis()->SetTitleSize(0.055);
@@ -190,7 +171,6 @@ void plotUnpart(TString myfolder = "")
     mg->GetYaxis()->SetTitleOffset(1.35);
     mg->GetXaxis()->SetRangeUser(1.06,2.2-0.01);
     mg->GetXaxis()->SetRangeUser(1.06,2.25);
-    //~ mg->GetXaxis()->SetRangeUser(1.0,2.25);
 
     addText(0.7-0.02,0.995-0.02,0.94,0.996,"2.3 fb^{-1} (13 TeV)",kBlack);
 
@@ -198,33 +178,25 @@ void plotUnpart(TString myfolder = "")
     addText(0.20+0.4,0.61+0.35,0.83-0.05+0.01,0.87-0.02+0.02,"#it{pp} #rightarrow Z#it{U} #rightarrow #it{l^{+}l^{-}U}",kBlack);
 
 
-
-
-
-
-
-    float posx1 = 0.18+0.4;
-    float posx2 = 0.5+0.47;
+    float posx1 = 0.6;
+    float posx2 = 0.95;
     float posy1 = 0.65-0.04;
-    float posy2 = 0.8-0.04;
+    float posy2 = 0.8;
     TLegend *leg = new TLegend(posx1, posy1, posx2, posy2);
     leg->SetFillColor(0);
     leg->SetFillStyle(0);
     leg->SetLineColor(0);
     leg->SetTextFont(42);
     leg->SetBorderSize(0);
-
-    leg->AddEntry(monoZ_obs, "CMS monoZ observed", "L");
-    leg->AddEntry(monoZ_exp, "CMS monoZ expected", "FL");
-    leg->AddEntry(monoZ_p1s, "CMS monoZ expected #pm1#sigma", "L");
+    leg->AddEntry(monoZ_obs, "Observed", "PL");
+    leg->AddEntry(monoZ_exp, "Expected", "PCL");
+    leg->AddEntry(monoZ_1s, "Expected #pm1#sigma", "F");
+    leg->AddEntry(monoZ_2s, "Expected #pm2#sigma", "F");
     leg->AddEntry(monoJet, "CMS monojet", "FL");
     leg->AddEntry(lep, "LEP reinterpretation", "FL");
-
     leg->Draw();
 
-
-addText(0.2,0.45+0.05,0.15,0.25,"spin = 0, #it{#lambda} = 1",kGray+2);
-
+    addText(0.2,0.45+0.05,0.15,0.25,"spin = 0, #it{#lambda} = 1",kGray+2);
 
     t1->RedrawAxis();
     if( savePlots ) {
@@ -240,13 +212,11 @@ addText(0.2,0.45+0.05,0.15,0.25,"spin = 0, #it{#lambda} = 1",kGray+2);
         }
         plotName = "Unpart";
         if(is8TeV) plotName += "_13TeV";
-        //if(!showObserved) plotName += "_noObs";
         canv->SaveAs( ("./"+plotName+"_LambdaU.png").c_str() );
         canv->SaveAs( ("./"+plotName+"_LambdaU.pdf").c_str() );
         canv->SaveAs( ("./"+plotName+"_LambdaU.eps").c_str() );
     }
 
-    //return;
 }
 
 

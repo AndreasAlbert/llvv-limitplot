@@ -19,58 +19,6 @@
 #include "Utils.h"
 
 using namespace std;
-void applyStyleToGraph(TGraph * h_g1){
-    h_g1->SetLineWidth(3);
-    h_g1->SetMarkerStyle(20);
-    h_g1->SetLineStyle(4);
-    h_g1->SetMarkerSize(0.8);
-    h_g1->SetMarkerColor(2);
-    h_g1->SetLineColor(2);
-}
-TGraph *InterpolateDM(TString tag, TGraph2D* h_Limit, double sqrt_gxgq=1.0, double xmin=1, double xmax=1000, double ymin=1, double ymax=200)
-{
-    std::cout << "Start interpolation." << std::endl;
-    TGraph *h_ =  new TGraph();
-    TRandom *r0 = new TRandom();
-
-    int maxTries = 1000;
-    int nnpts=0;
-    int Nsteps = 100;
-    int stepsWithoutHit = 0;
-    double x(0.), y(0.),mu_val(0.);
-    
-    for(int j=0; j<Nsteps; j++) {
-        x = j*(xmax-xmin)/Nsteps;
-        for(int i=0; i<maxTries; i++) {
-            y=r0->Uniform(ymin,ymax);
-            mu_val = h_Limit->Interpolate(x,y);
-            if(fabs(mu_val-sqrt_gxgq)<1e-3) {
-                h_->SetPoint(nnpts,x,y);
-                nnpts++;
-            }
-            if( i == maxTries - 1 ) stepsWithoutHit++;
-        }
-        //~ if( stepsWithoutHit > 10 ) break;
-    }
-
-    stepsWithoutHit = 0;
-    for(int j=0; j<Nsteps; j++) {
-        y = j*(ymax-ymin)/Nsteps;
-        for(int i=0; i<maxTries; i++) {
-            x=r0->Uniform(xmin,xmax);
-            mu_val = h_Limit->Interpolate(x,y);
-            if(fabs(mu_val-sqrt_gxgq)<1e-3) {
-                h_->SetPoint(nnpts,x,y);
-                nnpts++;
-            }
-            if( i == maxTries - 1 ) stepsWithoutHit++;
-        }
-        //~ if( stepsWithoutHit > 10 ) break;
-    }
-    applyStyleToGraph(h_);
-    std::cout << "Finish interpolation." << std::endl;
-    return h_;
-}
 
 
 void plot2D_DMV_obs(TString myfolder = "")
@@ -202,6 +150,9 @@ void plot2D_DMV_obs(TString myfolder = "")
     TGraph*   exclusion_p1s =  InterpolateDM(tag,h_Limit_p1s,1,1,700,1,180);
     TGraph*   exclusion_m1s =  InterpolateDM(tag,h_Limit_m1s,1,1,700,1,180);
     TGraph*   exclusion_obs =  InterpolateDM(tag,h_Limit_obs,1,1,700,1,180);
+
+    dumpGraphToFile( exclusion_exp, "interpolate_"+tag+"_expected.txt" );
+    dumpGraphToFile( exclusion_obs, "interpolate_"+tag+"_observed.txt" );
 
     exclusion_exp -> SetMarkerColor( kBlack );
     exclusion_p1s -> SetMarkerColor( kGray );
