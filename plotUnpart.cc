@@ -175,13 +175,14 @@ void plotUnpart(TString myfolder = "")
     addText(0.7-0.02,0.995-0.02,0.94,0.996,"2.3 fb^{-1} (13 TeV)",kBlack);
 
     addText(0.64,0.96,0.835+0.02,0.898+0.02,"#bf{CMS} #it{Preliminary}",kBlack);
-    addText(0.20+0.4,0.61+0.35,0.83-0.05+0.01,0.87-0.02+0.02,"#it{pp} #rightarrow Z#it{U} #rightarrow #it{l^{+}l^{-}U}",kBlack);
+    addText(0.6,0.96,0.8,0.87,"#it{pp} #rightarrow Z#it{U} #rightarrow #it{l^{+}l^{-}U}",kBlack);
+    addText(0.68,0.96,0.75,0.82,"spin = 0, #it{#lambda} = 1",kBlack);
 
 
-    float posx1 = 0.6;
-    float posx2 = 0.95;
-    float posy1 = 0.65-0.04;
-    float posy2 = 0.8;
+    float posx1 = 0.62;
+    float posx2 = 0.97;
+    float posy1 = 0.56;
+    float posy2 = 0.75;
     TLegend *leg = new TLegend(posx1, posy1, posx2, posy2);
     leg->SetFillColor(0);
     leg->SetFillStyle(0);
@@ -196,7 +197,6 @@ void plotUnpart(TString myfolder = "")
     leg->AddEntry(lep, "LEP reinterpretation", "FL");
     leg->Draw();
 
-    addText(0.2,0.45+0.05,0.15,0.25,"spin = 0, #it{#lambda} = 1",kGray+2);
 
     t1->RedrawAxis();
     if( savePlots ) {
