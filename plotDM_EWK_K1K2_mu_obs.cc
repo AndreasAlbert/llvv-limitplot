@@ -148,12 +148,17 @@ void plotDM_EWK_K1K2_mu_obs(TString myfolder = "")
     exclusion_exp -> SetMarkerColor( kBlack );
     exclusion_p1s -> SetMarkerColor( kGray );
     exclusion_m1s -> SetMarkerColor( kGray );
-    exclusion_obs -> SetMarkerColor( kRed );
+    exclusion_obs -> SetMarkerColor( kBlue );
     exclusion_exp -> SetLineColor( kBlack );
-    exclusion_p1s -> SetLineColor( kGray );
-    exclusion_m1s -> SetLineColor( kGray );
-    exclusion_obs -> SetLineColor( kRed );
-
+    exclusion_p1s -> SetLineColor( kBlack );
+    exclusion_m1s -> SetLineColor( kBlack );
+    exclusion_obs -> SetLineColor( kBlue );
+    exclusion_exp -> SetLineWidth(6);
+    exclusion_p1s -> SetLineWidth(6);
+    exclusion_m1s -> SetLineWidth(6);
+    exclusion_obs -> SetLineWidth(6);
+    exclusion_p1s -> SetLineStyle( 4 );
+    exclusion_m1s -> SetLineStyle( 4 );
 
     // Use TDR as basis
     TStyle * TDR = createTdrStyle();
@@ -177,10 +182,10 @@ void plotDM_EWK_K1K2_mu_obs(TString myfolder = "")
 
     h_obs->SetHistogram(h2);
     h_obs->Draw("COLZ");
-    exclusion_exp->Draw("P SAMES");
-    exclusion_p1s->Draw("P SAMES");
-    exclusion_m1s->Draw("P SAMES");
-    exclusion_obs->Draw("P SAMES");
+    exclusion_exp->Draw("L SAMES");
+    exclusion_p1s->Draw("L SAMES");
+    exclusion_m1s->Draw("L SAMES");
+    exclusion_obs->Draw("L SAMES");
     h_obs->SetMaximum(5);
     h_obs->SetMinimum(5e-3);
 
@@ -210,9 +215,9 @@ void plotDM_EWK_K1K2_mu_obs(TString myfolder = "")
     leg->SetTextFont(42);
     leg->SetBorderSize(0);
     leg->SetHeader("#sigma/#sigma_{theo}=1:");
-    leg->AddEntry(exclusion_obs, "Observed", "P");
-    leg->AddEntry(exclusion_exp, "Expected", "P");
-    leg->AddEntry(exclusion_p1s, "Expected - 1#sigma", "P");
+    leg->AddEntry(exclusion_obs, "Observed", "L");
+    leg->AddEntry(exclusion_exp, "Expected", "L");
+    leg->AddEntry(exclusion_p1s, "Expected - 1#sigma", "L");
 
     leg->Draw();
 

@@ -159,9 +159,17 @@ void plot2D_DMV_obs(TString myfolder = "")
     exclusion_m1s -> SetMarkerColor( kGray );
     exclusion_obs -> SetMarkerColor( kRed );
     exclusion_exp -> SetLineColor( kBlack );
-    exclusion_p1s -> SetLineColor( kGray );
-    exclusion_m1s -> SetLineColor( kGray );
+    exclusion_p1s -> SetLineColor( kBlack );
+    exclusion_p1s -> SetLineStyle( 4 );
+    exclusion_m1s -> SetLineColor( kBlack );
+    exclusion_m1s -> SetLineStyle( 4 );
     exclusion_obs -> SetLineColor( kRed );
+
+    exclusion_exp -> SetLineWidth( 4 );
+    exclusion_p1s -> SetLineWidth( 4 );
+    exclusion_m1s -> SetLineWidth( 4 );
+    exclusion_obs -> SetLineWidth( 4 );
+
     // Use TDR as basis
     TStyle * TDR = createTdrStyle();
     TDR->cd();
@@ -201,10 +209,10 @@ void plot2D_DMV_obs(TString myfolder = "")
     h_Limit_obs->SetHistogram(h3);
     
     h_Limit_obs->Draw("COLZ");
-    exclusion_exp->Draw("P SAMES");
-    exclusion_p1s->Draw("P SAMES");
-    exclusion_m1s->Draw("P SAMES");
-    exclusion_obs->Draw("P SAMES");
+    exclusion_exp->Draw("L SAMES");
+    exclusion_p1s->Draw("L SAMES");
+    exclusion_m1s->Draw("L SAMES");
+    exclusion_obs->Draw("L SAMES");
 
     h_Limit_obs->SetMaximum(50);
     h_Limit_obs->SetMinimum(0.5);
@@ -215,11 +223,11 @@ void plot2D_DMV_obs(TString myfolder = "")
     h_Limit_obs->GetZaxis()->SetRangeUser(0.01,50);
 
     addText(0.7-0.15,0.995-0.15,0.94,0.996,"2.3 fb^{-1} (13 TeV)",kBlack);
-    addText(0.17,0.37,0.835+0.01,0.898+0.01,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
+    addText(0.17,0.37,0.835+0.01,0.898+0.01,"#splitline{#bf{CMS}}{#it{Preliminary}}",kBlack);
 
     if( tag == "MV" ) addText(0.13,0.37,0.835-0.1,0.898-0.1,"Vector",kBlack);
     if( tag == "MA" ) addText(0.18,0.42,0.835-0.1,0.898-0.1,"Axial Vector",kBlack);;
-    
+
     float posx1 = 0.5;
     float posx2 = 0.75;
     float posy1 = 0.75;
@@ -233,9 +241,9 @@ void plot2D_DMV_obs(TString myfolder = "")
     leg->SetTextFont(42);
     leg->SetBorderSize(0);
     leg->SetHeader("#sigma/#sigma_{theo}=1:");
-    leg->AddEntry(exclusion_obs, "Observed", "P");
-    leg->AddEntry(exclusion_exp, "Expected", "P");
-    leg->AddEntry(exclusion_p1s, "Expected #pm 1#sigma", "P");
+    leg->AddEntry(exclusion_obs, "Observed", "L");
+    leg->AddEntry(exclusion_exp, "Expected", "L");
+    leg->AddEntry(exclusion_p1s, "Expected #pm 1#sigma", "L");
     
     leg->Draw();
     //~ leg->Draw();
