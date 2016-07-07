@@ -208,12 +208,48 @@ TStyle * createTdrStyle() {
     return tdrStyle;
 }
 void applyStyleToGraph(TGraph * h_g1){
-    h_g1->SetLineWidth(3);
+    h_g1->SetLineWidth(4);
     h_g1->SetMarkerStyle(20);
-    h_g1->SetLineStyle(4);
+    h_g1->SetLineStyle(1);
     h_g1->SetMarkerSize(0.8);
     h_g1->SetMarkerColor(2);
     h_g1->SetLineColor(2);
+}
+TGraph * sortGraph(TGraph * h){
+    double x(0), y(0);
+    TGraph * h_sorted = new TGraph();
+
+    double last_x(0),last_y(0), this_x(0), this_y(0), new_x(0), new_y(0);
+    int n = 0;
+    int new_i(0);
+    h->GetPoint(0, last_x, last_y );
+    h_sorted->SetPoint(n++,last_x,last_y);
+    h->RemovePoint(1);
+
+    double distance = 0;
+    int last_i=0;
+    int npoints = h->GetN();
+    while(n < npoints) {
+        double min_distance = 9999999;
+        for( int i = 0; i<h->GetN();i++) {
+            h->GetPoint(i,this_x,this_y);
+            distance = sqrt(pow(this_x-last_x,2) + pow(this_y-last_y,2));
+            if( distance < min_distance ) {
+                min_distance = distance;
+                new_x = this_x;
+                new_y = this_y;
+                new_i = i;
+            }
+        }
+        //~ std::cout << last_x << " " << last_y << " " << min_distance << " " << std::endl;
+        h_sorted->SetPoint(n,new_x,new_y);
+        last_x = new_x;
+        last_y = new_y;
+        h->RemovePoint(new_i);
+        //~ std::cout << n << std::endl;
+        n++;
+    }
+    return h_sorted;
 }
 TGraph *InterpolateDM(TString tag, TGraph2D* h_Limit, double sqrt_gxgq=1.0, double xmin=1, double xmax=1000, double ymin=1, double ymax=200)
 {
@@ -257,8 +293,11 @@ TGraph *InterpolateDM(TString tag, TGraph2D* h_Limit, double sqrt_gxgq=1.0, doub
     }
     applyStyleToGraph(h_);
     std::cout << "Finish interpolation." << std::endl;
-    return h_;
+    h_->Sort();
+    return sortGraph(h_);
 }
+
+
 
 void dumpGraphToFile( TGraph* g, TString filename ) {
     ofstream f;
