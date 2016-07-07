@@ -52,6 +52,7 @@ void plot_wimpxs_sd()
     TMultiGraph *mg = new TMultiGraph();
 
     TGraph *monoZ_13TeV_2p3fb_0 = new TGraph("interpolate_MA_observed.txt","%lg %lg");
+    monoZ_13TeV_2p3fb_0 = sortGraph(monoZ_13TeV_2p3fb_0);
     TGraph *monoZ_13TeV_2p3fb = new TGraph();
     int nd9=monoZ_13TeV_2p3fb_0->GetN(); //get ploted array dimention
     double m_med[3000];
@@ -70,50 +71,50 @@ void plot_wimpxs_sd()
     
     monoZ_13TeV_2p3fb->SetMarkerSize(0.8);
 
-
-    TGraph *coupp = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SD/COUPP_2012_SD_flat_efficiency_model.dat","%lg %lg");
+    TString path_to_dat =  "/.automount/home/home__home1/institut_3a/albert/code/llvv/limitplots/dat/";
+    TGraph *coupp = new TGraph(path_to_dat + "COUPP_2012_SD_flat_efficiency_model.dat","%lg %lg");
     coupp->SetLineWidth(2);
     coupp->SetLineColor(kPink+1);
     coupp->SetLineStyle(9);
     coupp->SetMarkerSize(0);
 
 
-    TGraph *simple = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SD/SIMPLE_2011_SD.dat","%lg %lg");
+    TGraph *simple = new TGraph(path_to_dat + "SIMPLE_2011_SD.dat","%lg %lg");
     simple->SetLineWidth(2);
     simple->SetLineColor(kViolet-1);
     simple->SetLineStyle(3);
     simple->SetMarkerSize(0);
 
 
-    TGraph *IceCube = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SD/IceCube_2011_SD_WW.dat","%lg %lg");
+    TGraph *IceCube = new TGraph(path_to_dat + "IceCube_2011_SD_WW.dat","%lg %lg");
     IceCube->SetLineWidth(2);
     IceCube->SetLineColor(kViolet+3);
     IceCube->SetLineStyle(7);
     IceCube->SetMarkerSize(0);
 
 
-    TGraph *IceCube_bb = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SD/IceCube_2011_SD_bb.dat","%lg %lg");
+    TGraph *IceCube_bb = new TGraph(path_to_dat + "IceCube_2011_SD_bb.dat","%lg %lg");
     IceCube_bb->SetLineWidth(2);
     IceCube_bb->SetLineColor(kViolet+3);
     IceCube_bb->SetLineStyle(3);
     IceCube_bb->SetMarkerSize(0);
 
 
-    TGraph *picasso = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SD/PICASSO_2012_SD_Limits.dat","%lg %lg");
+    TGraph *picasso = new TGraph(path_to_dat + "PICASSO_2012_SD_Limits.dat","%lg %lg");
     picasso->SetLineWidth(2);
     picasso->SetLineColor(kCyan+1);
     picasso->SetLineStyle(6);
     picasso->SetMarkerSize(0);
 
 
-    TGraph *pico2l = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SD/PICO-2L_SDp.dat","%lg %lg");
+    TGraph *pico2l = new TGraph(path_to_dat + "PICO-2L_SDp.dat","%lg %lg");
     pico2l->SetLineWidth(2);
     pico2l->SetLineColor(kPink+1);
     pico2l->SetLineStyle(9);
     pico2l->SetMarkerSize(0);
 
 
-    TGraph *xenon100 = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SD/xenon100_90CL1301.6620v2.dat","%lg %lg");
+    TGraph *xenon100 = new TGraph(path_to_dat + "xenon100_90CL1301.6620v2.dat","%lg %lg");
     xenon100->SetLineWidth(2);
     xenon100->SetLineColor(kViolet-1);
     xenon100->SetLineStyle(3);
@@ -125,7 +126,7 @@ void plot_wimpxs_sd()
     mg->Add(IceCube);
  
     mg->Draw("ACP");
-    monoZ_13TeV_2p3fb->Draw("P");
+    monoZ_13TeV_2p3fb->Draw("L");
     mg->SetMinimum(1e-43);
     mg->SetMaximum(1e-35);
     mg->GetXaxis()->SetRangeUser(1,1100);
@@ -171,7 +172,7 @@ void plot_wimpxs_sd()
     leg->Draw();
 
     //~ addText(0.76-0.6+0.02,0.96-0.6+0.02,0.835,0.898,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
-    addText(0.21,0.5,0.92,0.82,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
+    addText(0.21,0.5,0.92,0.82,"#splitline{#bf{CMS}}{#it{Preliminary}}",kBlack);
 
     addText(0.77-0.05,0.97-0.05,0.755+0.1,0.818+0.1,"#splitline{#it{Axial vector}}{#it{coupling}}",kBlack);
     addText(0.67,0.90,0.345,0.408,"#it{Observed limits}",kBlack);

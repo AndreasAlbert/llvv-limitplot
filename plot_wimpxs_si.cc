@@ -44,6 +44,7 @@ void plot_wimpxs_si()
     TMultiGraph *mg = new TMultiGraph();
     
     TGraph *monoZ_13TeV_2p3fb_0 = new TGraph("interpolate_MV_observed.txt","%lg %lg");
+    monoZ_13TeV_2p3fb_0 = sortGraph(monoZ_13TeV_2p3fb_0);
     TGraph *monoZ_13TeV_2p3fb = new TGraph();
     int nd9=monoZ_13TeV_2p3fb_0->GetN(); //get ploted array dimention
     double m_med[3000];
@@ -60,8 +61,11 @@ void plot_wimpxs_si()
     monoZ_13TeV_2p3fb->SetLineStyle(1);
     monoZ_13TeV_2p3fb->SetMarkerStyle(20);
     monoZ_13TeV_2p3fb->SetMarkerSize(0.8);
-    
-    TGraph *Lux2013 = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SI/LUX_2013_90CL.dat","%lg %lg");
+
+
+        TString path_to_dat =  "/.automount/home/home__home1/institut_3a/albert/code/llvv/limitplots/dat/";
+
+    TGraph *Lux2013 = new TGraph(path_to_dat + "LUX_2013_90CL.dat","%lg %lg");
     Lux2013->SetLineWidth(2);
     Lux2013->SetLineColor(kPink+7);
     //Lux2013->SetFillStyle();
@@ -71,20 +75,20 @@ void plot_wimpxs_si()
     Lux2013->SetMarkerSize(0);
 
 
-    TGraph *cdmslite = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SI/CDMSlite.dat","%lg %lg");
+    TGraph *cdmslite = new TGraph(path_to_dat + "CDMSlite.dat","%lg %lg");
     cdmslite->SetLineWidth(2);
     cdmslite->SetLineColor(kViolet-1);
     cdmslite->SetLineStyle(2);
     cdmslite->SetMarkerSize(0);
 
 
-    TGraph *superCDMS2014 = new TGraph("~/code/llvv/limitplots/wimpxs/wimpPlotter_VectorM/wimpPlotter_SI/superCDMS_2014.dat","%lg %lg");
+    TGraph *superCDMS2014 = new TGraph(path_to_dat + "superCDMS_2014.dat","%lg %lg");
     superCDMS2014->SetLineWidth(2);
     superCDMS2014->SetLineColor(kViolet+2);
     superCDMS2014->SetLineStyle(8);
     superCDMS2014->SetMarkerSize(0);
 
-    mg->Add(monoZ_13TeV_2p3fb,"P");
+    mg->Add(monoZ_13TeV_2p3fb,"L");
     mg->Add(Lux2013,"CP");
     mg->Add(cdmslite,"CP");
 
@@ -112,7 +116,7 @@ void plot_wimpxs_si()
 
     addText(0.21+0.55,0.37+0.55,0.22,0.12,"90% CL",kGray+2);
     addText(0.18,0.45,0.3,0.05,"Spin Independent",kGray+2);
-    addText(0.21,0.5,0.92,0.82,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
+    addText(0.21,0.5,0.92,0.82,"#splitline{#bf{CMS}}{#it{Preliminary}}",kBlack);
     addText(0.77-0.05,0.97-0.05,0.755+0.1,0.818+0.1,"#splitline{#it{Vector}}{#it{coupling}}",kBlack);
     addText(0.67,0.90,0.345,0.408,"#it{Observed limits}",kBlack);
 
