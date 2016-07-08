@@ -197,7 +197,7 @@ void plotDM_EWK_K1K2_mu_obs(TString myfolder = "")
 
 
     addText(0.7-0.15,0.995-0.15,0.94,0.996,"2.3 fb^{-1} (13 TeV)",kBlack);
-    addText(0.17,0.37,0.835+0.01,0.898+0.01,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
+    addText(0.17,0.37,0.835+0.01,0.898+0.01,"#splitline{#bf{CMS}}{#it{Preliminary}}",kBlack);
     addText(0.17,0.47,0.15,0.35,"#Lambda=300 GeV, c_{2}=1",kBlack);
 
 

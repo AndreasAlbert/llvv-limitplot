@@ -206,7 +206,7 @@ void plotModelIndepXS(TString myfolder)
     addText(0.7-0.02,0.995-0.02,0.94,0.996,"2.3 fb^{-1} (13 TeV)",kBlack);
 
 
-    addText(0.1+0.06+0.05,0.3+0.2+0.05,0.835+0.02,0.898+0.02,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
+    addText(0.1+0.06+0.05,0.3+0.2+0.05,0.835+0.02,0.898+0.02,"#splitline{#bf{CMS}}{#it{Preliminary}}",kBlack);
 
 
     t1->RedrawAxis();
