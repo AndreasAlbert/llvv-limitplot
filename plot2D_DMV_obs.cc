@@ -21,11 +21,10 @@
 using namespace std;
 
 
-void plot2D_DMV_obs(TString myfolder = "")
+void plot2D_DMV_obs(TString myfolder = "",TString tag="")
 {
 
 
-    TString tag = "";
     if(myfolder.Contains("/MV")) tag="MV";
     if(myfolder.Contains("/MA")) tag="MA";
 
@@ -88,7 +87,7 @@ void plot2D_DMV_obs(TString myfolder = "")
             TString str_mx = Convert2TString(dm_masses[nmx]);
             TString str_mv = Convert2TString(mv_masses[nmv]);
 
-            TFile myfile( myfolder+"/"+str_mx+"_"+str_mv+"/higgsCombineZwimps01jets.Asymptotic.mH1.root" );
+            TFile myfile( myfolder+"/"+tag+"_"+str_mx+"_"+str_mv+"/higgsCombineZwimps01jets.Asymptotic.mH1.root" );
 
             Double_t obs;
             Double_t m2s;

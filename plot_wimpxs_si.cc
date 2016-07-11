@@ -21,6 +21,28 @@ double getSigmaSI(double obs_lam, double mx)
     double redMass = (mx*mN)/(mx+mN);
     return 1.1e-27 * pow(redMass,2)/pow(obs_lam,4); //cm^2
 }
+
+TGraph *superCDMS() {
+    int i0 = -1;
+    double *lX = new double[1000];
+    double *lY = new double[1000];
+    i0++; lX[i0] = 3.5946953342351033; lY[i0]= 9.848667679721256e-40;
+    i0++; lX[i0] = 3.75095871431554;   lY[i0] = 4.7369269651270765e-40;
+    i0++; lX[i0] = 4.055296786109914;  lY[i0] = 1.731452556791703e-40;
+    i0++; lX[i0] = 4.859185478655973;  lY[i0] = 3.335637195211155e-41;
+    i0++; lX[i0] = 5.443071002530319;  lY[i0] = 1.4979478319670555e-41;
+    i0++; lX[i0] = 6.568479751568511;  lY[i0] = 4.257347230887382e-42;
+    i0++; lX[i0] = 7.759712545805536;  lY[i0] = 1.4200965776277166e-42;
+    i0++; lX[i0] = 10.195931085528889; lY[i0] = 5.073387251235342e-43;
+    i0++; lX[i0] = 13.636666866311272; lY[i0] = 2.930133564061426e-43;
+    i0++; lX[i0] = 18.04552501288121;  lY[i0] = 2.0321090962591862e-43;
+    i0++; lX[i0] = 23.377104302070727; lY[i0] = 1.941241066769181e-43;
+    i0++; lX[i0] = 29.857390063416926; lY[i0] = 2.0321090962591862e-43;
+    TGraph *lLimit = new TGraph(i0,lX,lY);
+    lLimit->SetLineWidth(2.);
+    lLimit->SetLineColor(kBlue+2);
+    return lLimit;
+}
 void plot_wimpxs_si()
 {
     string dbpars[] = {"1","10", "200", "500", "1000"};
@@ -42,7 +64,7 @@ void plot_wimpxs_si()
     t1->SetLogx(true);
 
     TMultiGraph *mg = new TMultiGraph();
-    
+
     TGraph *monoZ_13TeV_2p3fb_0 = new TGraph("interpolate_MV_observed.txt","%lg %lg");
     monoZ_13TeV_2p3fb_0 = sortGraph(monoZ_13TeV_2p3fb_0);
     TGraph *monoZ_13TeV_2p3fb = new TGraph();
@@ -54,7 +76,7 @@ void plot_wimpxs_si()
         double wimpxs = getSigmaSI(m_med[i],m_dm[i]);
         monoZ_13TeV_2p3fb->SetPoint(i,m_dm[i],wimpxs);
     }
-        
+
     monoZ_13TeV_2p3fb->SetLineWidth(3);
     monoZ_13TeV_2p3fb->SetLineColor(kRed+1);
     monoZ_13TeV_2p3fb->SetMarkerColor(kRed+1);
@@ -71,30 +93,19 @@ void plot_wimpxs_si()
     //Lux2013->SetFillStyle();
     //Lux2013->SetFillColor(kPink+3);
     //Lux2013->SetLineWidth(3002);
-    Lux2013->SetLineStyle(9);
+    Lux2013->SetLineStyle(1);
     Lux2013->SetMarkerSize(0);
 
 
-    TGraph *cdmslite = new TGraph(path_to_dat + "CDMSlite.dat","%lg %lg");
-    cdmslite->SetLineWidth(2);
-    cdmslite->SetLineColor(kViolet-1);
-    cdmslite->SetLineStyle(2);
-    cdmslite->SetMarkerSize(0);
-
-
-    TGraph *superCDMS2014 = new TGraph(path_to_dat + "superCDMS_2014.dat","%lg %lg");
-    superCDMS2014->SetLineWidth(2);
-    superCDMS2014->SetLineColor(kViolet+2);
-    superCDMS2014->SetLineStyle(8);
-    superCDMS2014->SetMarkerSize(0);
+    TGraph * supercdms = superCDMS();
 
     mg->Add(monoZ_13TeV_2p3fb,"L");
-    mg->Add(Lux2013,"CP");
-    mg->Add(cdmslite,"CP");
+    mg->Add(Lux2013,"C");
+    mg->Add(supercdms,"C");
 
     mg->Draw("A");
-    mg->SetMinimum(1e-46);
-    mg->SetMaximum(1e-29);
+    mg->SetMinimum(1e-47);
+    mg->SetMaximum(1e-28);
     mg->GetXaxis()->SetTitle(parName.c_str());
 
     mg->GetYaxis()->SetTitle("WIMP-nucleon cross section [cm^{2}]");
@@ -120,8 +131,6 @@ void plot_wimpxs_si()
     addText(0.77-0.05,0.97-0.05,0.755+0.1,0.818+0.1,"#splitline{#it{Vector}}{#it{coupling}}",kBlack);
     addText(0.67,0.90,0.345,0.408,"#it{Observed limits}",kBlack);
 
-    addText(0.75,0.92,0.29,0.24,"LUX 2013",kPink+7,10);
-    addText(0.41,0.55,0.35,0.5,"CDMSlite",kViolet-1);
     //#################################################
     float posx1 = 0.2;
     float posx2 = 0.55;
@@ -136,6 +145,8 @@ void plot_wimpxs_si()
 
 
     leg->AddEntry(monoZ_13TeV_2p3fb, "13 TeV, 2.3 fb^{-1}", "L");
+    leg->AddEntry(supercdms, "SuperCDMS", "L");
+    leg->AddEntry(Lux2013, "LUX", "L");
 
     leg->Draw();
 
