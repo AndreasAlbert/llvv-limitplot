@@ -80,7 +80,7 @@ void plotDM_EWK_K1K2_obs(TString myfolder = "")
             str_mx += "_";
             str_mx += K1[nk1];
 
-            TFile myfile( myfolder+"/"+str_mx+"/higgsCombineZwimps01jets.Asymptotic.mH1.root" );
+            TFile myfile( myfolder+"/MEWK_"+str_mx+"/higgsCombineZwimps01jets.Asymptotic.mH1.root" );
 
             Double_t obs;
             Double_t m2s;
@@ -93,6 +93,7 @@ void plotDM_EWK_K1K2_obs(TString myfolder = "")
 
                 Double_t lim;
                 TTree *t = (TTree*)myfile.Get("limit");
+                if(t==0)continue;
                 t->SetBranchAddress("limit",    &lim);
 
                 // Expected  2.5%

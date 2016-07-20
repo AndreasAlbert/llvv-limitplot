@@ -6,6 +6,7 @@
 #include "TFile.h"
 #include "TTree.h"
 #include "TCanvas.h"
+#include "TMath.h"
 #include "TH1F.h"
 #include "TH2F.h"
 #include "TProfile.h"
@@ -13,6 +14,7 @@
 #include "TString.h"
 #include "TList.h"
 #include "TGraph.h"
+#include "TGraph2D.h"
 #include "TCanvas.h"
 #include "TPad.h"
 #include "TLegend.h"
@@ -22,6 +24,7 @@
 #include "TGraphErrors.h"
 #include "TLatex.h"
 #include "TAxis.h"
+#include "TRandom3.h"
 
 #include<iostream>
 #include<fstream>
@@ -207,6 +210,7 @@ TStyle * createTdrStyle() {
     tdrStyle->cd();
     return tdrStyle;
 }
+
 void applyStyleToGraph(TGraph * h_g1){
     h_g1->SetLineWidth(4);
     h_g1->SetMarkerStyle(20);
@@ -253,48 +257,121 @@ TGraph * sortGraph(TGraph * h){
 }
 TGraph *InterpolateDM(TString tag, TGraph2D* h_Limit, double sqrt_gxgq=1.0, double xmin=1, double xmax=1000, double ymin=1, double ymax=200)
 {
+    bool debug = false; 
+    bool verboseDebug = false; 
+
     std::cout << "Start interpolation." << std::endl;
     TGraph *h_ =  new TGraph();
-    TRandom *r0 = new TRandom();
+    TRandom3 *r0 = new TRandom3();
 
-    int maxTries = 1000;
+    int maxTries = 5000;
     int nnpts=0;
-    int Nsteps = 100;
-    int stepsWithoutHit = 0;
-    double x(0.), y(0.),mu_val(0.);
+    int Nsteps = 300; //100;
+    //int stepsWithoutHit = 0;
+    //double x(0.), y(0.),muval(0.);
 
+    int cnt=0; 
+    // Let's try "diagonal" interpolation 
+    double x0 = 80.; 
+    double y0 = 1.; 
+    double xL = xmax - x0; 
+    double yL = ymax - y0; 
+    double alphamin = 0.001; 
+    double alphamax = 1.0*TMath::Pi(); 
+    double deltaAlpha = (alphamax-alphamin)/Nsteps; 
+    bool notyetchanged=true; 
+    //for(int j=0; j<Nsteps; j++) { // to be changed, this is just to skip alpha=0 
+    for(double alpha=alphamin; alpha<alphamax; alpha+=deltaAlpha) { 
+      //x = j*(xmax-xmin)/Nsteps;
+      //double alpha = alphamin + j*(alphamax-alphamin)/Nsteps;
+      if(notyetchanged && alpha>0.5*TMath::Pi()) { 
+	deltaAlpha *= 30.; 
+	xL = x0 - xmin; 
+	notyetchanged = false; 
+      } 
+      double xsel(0.), ysel(0.), muvalratiosel(999999.); 
+      for(int i=1; i<maxTries; i++) {
+	//y=TMath::Exp(r0->Uniform(TMath::Log(ymin),TMath::Log(ymax)));
+	//y=r0->Uniform(ymin,ymax);
+	//y=ymin + r0->Exp((ymax-ymin)/10);
+	//double rho = r0->Exp(10.); 
+	double rhoL = std::sqrt( std::pow(xL*std::cos(alpha),2 ) + std::pow(yL*std::sin(alpha), 2) ); 
+	double rho = (-1.)*rhoL*std::log10(1-i*1./maxTries); 
+	double x = x0 + rho*std::cos(alpha); 
+	double y = y0 + rho*std::sin(alpha); 
+	if(x>=xmax || y>=ymax || x<=xmin || y<=ymin) continue;  
+	double muval = h_Limit->Interpolate(x,y);
+	double muvalratio = fabs(muval-sqrt_gxgq)/sqrt_gxgq; 
+	//double muval = h_Limit->
+	//std::cout << muval << " - "; 
+	if(muvalratio<0.01) {
+	  if(debug && verboseDebug) std::cout << " --- Candidate: (x, y;   mu) = (" << x << ", " << y << ";   " << muval << ")"; 
+	  if(muvalratio<muvalratiosel) {
+	    if(debug && verboseDebug) std::cout << "  --->  selected!" << std::endl; 
+	    xsel = x; 
+	    ysel = y; 
+	    muvalratiosel = muvalratio; 
+	    //h_->SetPoint(nnpts, x, y);
+	    //nnpts++; 
+	    //break; 
+	  }
+	  else {
+	    if(debug && verboseDebug) std::cout << std::endl; 
+	  }
+	}
+	//if( i == maxTries - 1 ) stepsWithoutHit++;
+      }
+      if(muvalratiosel<999990.) {
+	h_->SetPoint(nnpts++, xsel, ysel);
+	if(debug) std::cout << " *** Selected: (x, y;   mu ratio) = (" << xsel << ", " << ysel << ";   " << muvalratiosel << ")" << std::endl; 
+      }
+      if(debug && verboseDebug) std::cout << std::endl; 
+      //~ if( stepsWithoutHit > 10 ) break;
+    }
+
+    /*
     for(int j=0; j<Nsteps; j++) {
         x = j*(xmax-xmin)/Nsteps;
         for(int i=0; i<maxTries; i++) {
-            y=r0->Uniform(ymin,ymax);
-            mu_val = h_Limit->Interpolate(x,y);
-            if(fabs(mu_val-sqrt_gxgq)/sqrt_gxgq<1e-3) {
+            //~ y=TMath::Exp(r0->Uniform(TMath::Log(ymin),TMath::Log(ymax)));
+            //~ y=r0->Uniform(ymin,ymax);
+            y=ymin + r0->Exp((ymax-ymin)/10);
+            muval = h_Limit->Interpolate(x,y);
+            //~ std::cout << x << " " << y << std::endl;
+            if(fabs(muval-sqrt_gxgq)/sqrt_gxgq<3e-2) {
                 h_->SetPoint(nnpts,x,y);
                 nnpts++;
             }
-            if( i == maxTries - 1 ) stepsWithoutHit++;
+            //if( i == maxTries - 1 ) stepsWithoutHit++;
         }
         //~ if( stepsWithoutHit > 10 ) break;
     }
 
-    stepsWithoutHit = 0;
+    //stepsWithoutHit = 0;
     for(int j=0; j<Nsteps; j++) {
         y = j*(ymax-ymin)/Nsteps;
         for(int i=0; i<maxTries; i++) {
-            x=r0->Uniform(xmin,xmax);
-            mu_val = h_Limit->Interpolate(x,y);
-            if(fabs(mu_val-sqrt_gxgq)/sqrt_gxgq<1e-3) {
+            //~ x=r0->Uniform(xmin,xmax);
+            x=xmin + r0->Exp((xmax-xmin)/10);
+            muval = h_Limit->Interpolate(x,y);
+            //~ std::cout << x << " " << y << std::endl;
+            if(fabs(muval-sqrt_gxgq)/sqrt_gxgq<3e-2) {
                 h_->SetPoint(nnpts,x,y);
                 nnpts++;
             }
-            if( i == maxTries - 1 ) stepsWithoutHit++;
+            //if( i == maxTries - 1 ) stepsWithoutHit++;
         }
         //~ if( stepsWithoutHit > 10 ) break;
     }
+    */
+
     applyStyleToGraph(h_);
     std::cout << "Finish interpolation." << std::endl;
-    h_->Sort();
-    return sortGraph(h_);
+    //h_->Sort();
+
+    
+    //return sortGraph(h_);
+    return h_; 
 }
 
 

@@ -643,14 +643,18 @@ void plot_wimpxs_sd()
 
     TMultiGraph *mg = new TMultiGraph();
 
-    TGraph *monoZ_13TeV_2p3fb_0 = new TGraph("interpolate_MA_observed.txt","%lg %lg");
+    TGraph *monoZ_13TeV_2p3fb_0 = new TGraph("interpolate_MA_observed_1p00.txt","%lg %lg");
+    std::cout << monoZ_13TeV_2p3fb_0 << std::endl;
     monoZ_13TeV_2p3fb_0 = sortGraph(monoZ_13TeV_2p3fb_0);
+    std::cout << monoZ_13TeV_2p3fb_0 << std::endl;
     TGraph *monoZ_13TeV_2p3fb = new TGraph();
     int nd9=monoZ_13TeV_2p3fb_0->GetN(); //get ploted array dimention
-    double m_med[3000];
-    double m_dm[3000];
+    std::cout << nd9<< std::endl;
+    double m_med[10000];
+    double m_dm[10000];
     for(Int_t i=0; i<nd9; i++) {
         monoZ_13TeV_2p3fb_0->GetPoint(i,m_med[i],m_dm[i]);
+        std::cout << m_med[i] << " " <<m_dm[i] << std::endl;
         double wimpxs = getSigmaSD(m_med[i],m_dm[i]);
         monoZ_13TeV_2p3fb->SetPoint(i,m_dm[i],wimpxs);
     }
@@ -662,13 +666,6 @@ void plot_wimpxs_sd()
     monoZ_13TeV_2p3fb->SetMarkerStyle(20);
 
     monoZ_13TeV_2p3fb->SetMarkerSize(0.8);
-
-    TString path_to_dat =  "/.automount/home/home__home1/institut_3a/albert/code/llvv/limitplots/dat/";
-    TGraph *coupp = new TGraph(path_to_dat + "COUPP_2012_SD_flat_efficiency_model.dat","%lg %lg");
-    coupp->SetLineWidth(2);
-    coupp->SetLineColor(kPink+1);
-    coupp->SetLineStyle(9);
-    coupp->SetMarkerSize(0);
 
     TGraph * superk = SuperKtt();
     TGraph* pico2l = Pico2L();
@@ -704,7 +701,7 @@ void plot_wimpxs_sd()
 
 
     addText(0.21+0.55,0.37+0.55,0.22,0.12,"90% CL",kGray+2);
-    addText(0.18,0.45,0.3,0.05,"Spin dependent",kGray+2);
+    addText(0.18,0.45,0.3,0.05,"Spin dependent, g_{q}=1.0",kGray+2);
 
     float posx1 = 0.2;
     float posx2 = 0.55;
@@ -726,7 +723,6 @@ void plot_wimpxs_sd()
 
     leg->Draw();
 
-    //~ addText(0.76-0.6+0.02,0.96-0.6+0.02,0.835,0.898,"#splitline{#bf{CMS}}{#it{Work in Progress}}",kBlack);
     addText(0.21,0.5,0.92,0.82,"#splitline{#bf{CMS}}{#it{Preliminary}}",kBlack);
 
     addText(0.77-0.05,0.97-0.05,0.755+0.1,0.818+0.1,"#splitline{#it{Axial vector}}{#it{coupling}}",kBlack);

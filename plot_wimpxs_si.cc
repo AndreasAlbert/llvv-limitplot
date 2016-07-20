@@ -65,12 +65,12 @@ void plot_wimpxs_si()
 
     TMultiGraph *mg = new TMultiGraph();
 
-    TGraph *monoZ_13TeV_2p3fb_0 = new TGraph("interpolate_MV_observed.txt","%lg %lg");
+    TGraph *monoZ_13TeV_2p3fb_0 = new TGraph("interpolate_MV_observed_1p00.txt","%lg %lg");
     monoZ_13TeV_2p3fb_0 = sortGraph(monoZ_13TeV_2p3fb_0);
     TGraph *monoZ_13TeV_2p3fb = new TGraph();
     int nd9=monoZ_13TeV_2p3fb_0->GetN(); //get ploted array dimention
-    double m_med[3000];
-    double m_dm[3000];
+    double m_med[10000];
+    double m_dm[10000];
     for(Int_t i=0; i<nd9; i++) {
         monoZ_13TeV_2p3fb_0->GetPoint(i,m_med[i],m_dm[i]);
         double wimpxs = getSigmaSI(m_med[i],m_dm[i]);
@@ -126,7 +126,7 @@ void plot_wimpxs_si()
 
 
     addText(0.21+0.55,0.37+0.55,0.22,0.12,"90% CL",kGray+2);
-    addText(0.18,0.45,0.3,0.05,"Spin Independent",kGray+2);
+    addText(0.18,0.45,0.3,0.05,"Spin Independent, g_{q}=1.0",kGray+2);
     addText(0.21,0.5,0.92,0.82,"#splitline{#bf{CMS}}{#it{Preliminary}}",kBlack);
     addText(0.77-0.05,0.97-0.05,0.755+0.1,0.818+0.1,"#splitline{#it{Vector}}{#it{coupling}}",kBlack);
     addText(0.67,0.90,0.345,0.408,"#it{Observed limits}",kBlack);

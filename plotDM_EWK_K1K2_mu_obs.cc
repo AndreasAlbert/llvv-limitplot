@@ -79,7 +79,7 @@ void plotDM_EWK_K1K2_mu_obs(TString myfolder = "")
             str_mx += "_";
             str_mx += K1[nk1];
 
-            TFile myfile( myfolder+"/"+str_mx+"/higgsCombineZwimps01jets.Asymptotic.mH1.root" );
+            TFile myfile( myfolder+"/MEWK_"+str_mx+"/higgsCombineZwimps01jets.Asymptotic.mH1.root" );
 
             Double_t obs;
             Double_t m2s;
@@ -92,6 +92,7 @@ void plotDM_EWK_K1K2_mu_obs(TString myfolder = "")
 
                 Double_t lim;
                 TTree *t = (TTree*)myfile.Get("limit");
+                if(t==0) continue;
                 t->SetBranchAddress("limit",    &lim);
 
                 // Expected  2.5%
@@ -141,10 +142,17 @@ void plotDM_EWK_K1K2_mu_obs(TString myfolder = "")
 
     }
 
-    TGraph*   exclusion_exp =  InterpolateDM(tag,h_exp,1,700,1400,0.1,5);
-    TGraph*   exclusion_p1s =  InterpolateDM(tag,h_p1s,1,700,1400,0.1,5);
-    TGraph*   exclusion_m1s =  InterpolateDM(tag,h_m1s,1,700,1400,0.1,5);
-    TGraph*   exclusion_obs =  InterpolateDM(tag,h_obs,1,700,1400,0.1,5);
+    TGraph*   exclusion_exp =  InterpolateDM(tag,h_exp,1,700,1400,0.01,5);
+    TGraph*   exclusion_p1s =  InterpolateDM(tag,h_p1s,1,700,1400,0.01,5);
+    TGraph*   exclusion_m1s =  InterpolateDM(tag,h_m1s,1,700,1400,0.01,5);
+    TGraph*   exclusion_obs =  InterpolateDM(tag,h_obs,1,700,1400,0.01,5);
+    TGraphSmooth *gs = new TGraphSmooth("normal");
+
+    //~ exclusion_exp = gs->SmoothKern(exclusion_exp,"normal",5.0);
+    //~ exclusion_p1s = gs->SmoothKern(exclusion_p1s,"normal",5.0);
+    //~ exclusion_m1s = gs->SmoothKern(exclusion_m1s,"normal",5.0);
+    //~ exclusion_obs = gs->SmoothKern(exclusion_obs,"normal",20.0);
+
     exclusion_exp -> SetMarkerColor( kBlack );
     exclusion_p1s -> SetMarkerColor( kGray );
     exclusion_m1s -> SetMarkerColor( kGray );
@@ -160,6 +168,7 @@ void plotDM_EWK_K1K2_mu_obs(TString myfolder = "")
     exclusion_p1s -> SetLineStyle( 4 );
     exclusion_m1s -> SetLineStyle( 4 );
 
+    
     // Use TDR as basis
     TStyle * TDR = createTdrStyle();
     TDR->cd();
