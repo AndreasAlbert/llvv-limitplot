@@ -122,50 +122,50 @@ TGraph*Pico2L() {
   int i0 = -1;
   double *lX = new double[1000];
   double *lY = new double[1000];
-  i0++;  lX[i0] = 3.3113e+00; lY[i0] = 8.5638e-33; 
-  i0++;  lX[i0] = 3.6308e+00; lY[i0] = 5.4104e-36; 
-  i0++;  lX[i0] = 3.9811e+00; lY[i0] = 5.6411e-37; 
-  i0++;  lX[i0] = 4.3652e+00; lY[i0] = 1.3643e-37; 
-  i0++;  lX[i0] = 4.7863e+00; lY[i0] = 4.8940e-38; 
-  i0++;  lX[i0] = 5.2481e+00; lY[i0] = 2.2120e-38; 
-  i0++;  lX[i0] = 5.7544e+00; lY[i0] = 1.1705e-38; 
-  i0++;  lX[i0] = 6.3096e+00; lY[i0] = 6.9885e-39; 
-  i0++;  lX[i0] = 6.9183e+00; lY[i0] = 4.5488e-39; 
-  i0++;  lX[i0] = 7.5858e+00; lY[i0] = 3.1742e-39; 
-  i0++;  lX[i0] = 8.3176e+00; lY[i0] = 2.3452e-39; 
-  i0++;  lX[i0] = 9.1201e+00; lY[i0] = 1.8170e-39; 
-  i0++;  lX[i0] = 1.0000e+01; lY[i0] = 1.4649e-39; 
-  i0++;  lX[i0] = 1.0965e+01; lY[i0] = 1.2214e-39; 
-  i0++;  lX[i0] = 1.2023e+01; lY[i0] = 1.0481e-39; 
-  i0++;  lX[i0] = 1.3183e+01; lY[i0] = 9.2175e-40; 
-  i0++;  lX[i0] = 1.4454e+01; lY[i0] = 8.2814e-40; 
-  i0++;  lX[i0] = 1.5849e+01; lY[i0] = 7.5832e-40; 
-  i0++;  lX[i0] = 1.7378e+01; lY[i0] = 7.0569e-40; 
-  i0++;  lX[i0] = 1.9055e+01; lY[i0] = 6.6618e-40; 
-  i0++;  lX[i0] = 2.0893e+01; lY[i0] = 6.3693e-40; 
-  i0++;  lX[i0] = 2.2909e+01; lY[i0] = 6.1596e-40; 
-  i0++;  lX[i0] = 2.5119e+01; lY[i0] = 6.0183e-40; 
-  i0++;  lX[i0] = 3.1623e+01; lY[i0] = 5.9045e-40; 
-  i0++;  lX[i0] = 3.9811e+01; lY[i0] = 6.0684e-40; 
-  i0++;  lX[i0] = 5.0119e+01; lY[i0] = 6.4756e-40; 
-  i0++;  lX[i0] = 6.3096e+01; lY[i0] = 7.1255e-40; 
-  i0++;  lX[i0] = 7.9433e+01; lY[i0] = 8.0411e-40; 
-  i0++;  lX[i0] = 1.0000e+02; lY[i0] = 9.2643e-40; 
-  i0++;  lX[i0] = 1.2589e+02; lY[i0] = 1.0857e-39; 
-  i0++;  lX[i0] = 1.5849e+02; lY[i0] = 1.2900e-39; 
-  i0++;  lX[i0] = 1.9953e+02; lY[i0] = 1.5504e-39; 
-  i0++;  lX[i0] = 2.5119e+02; lY[i0] = 1.8804e-39; 
-  i0++;  lX[i0] = 3.1623e+02; lY[i0] = 2.2976e-39; 
-  i0++;  lX[i0] = 1.0000e+03; lY[i0] = 6.7076e-39; 
-  i0++;  lX[i0] = 3.1623e+03; lY[i0] = 2.0675e-38; 
-  i0++;  lX[i0] = 1.0000e+04; lY[i0] = 6.4850e-38; 
+  i0++;  lX[i0] = 3.3113e+00; lY[i0] = 8.5638e-33;
+  i0++;  lX[i0] = 3.6308e+00; lY[i0] = 5.4104e-36;
+  i0++;  lX[i0] = 3.9811e+00; lY[i0] = 5.6411e-37;
+  i0++;  lX[i0] = 4.3652e+00; lY[i0] = 1.3643e-37;
+  i0++;  lX[i0] = 4.7863e+00; lY[i0] = 4.8940e-38;
+  i0++;  lX[i0] = 5.2481e+00; lY[i0] = 2.2120e-38;
+  i0++;  lX[i0] = 5.7544e+00; lY[i0] = 1.1705e-38;
+  i0++;  lX[i0] = 6.3096e+00; lY[i0] = 6.9885e-39;
+  i0++;  lX[i0] = 6.9183e+00; lY[i0] = 4.5488e-39;
+  i0++;  lX[i0] = 7.5858e+00; lY[i0] = 3.1742e-39;
+  i0++;  lX[i0] = 8.3176e+00; lY[i0] = 2.3452e-39;
+  i0++;  lX[i0] = 9.1201e+00; lY[i0] = 1.8170e-39;
+  i0++;  lX[i0] = 1.0000e+01; lY[i0] = 1.4649e-39;
+  i0++;  lX[i0] = 1.0965e+01; lY[i0] = 1.2214e-39;
+  i0++;  lX[i0] = 1.2023e+01; lY[i0] = 1.0481e-39;
+  i0++;  lX[i0] = 1.3183e+01; lY[i0] = 9.2175e-40;
+  i0++;  lX[i0] = 1.4454e+01; lY[i0] = 8.2814e-40;
+  i0++;  lX[i0] = 1.5849e+01; lY[i0] = 7.5832e-40;
+  i0++;  lX[i0] = 1.7378e+01; lY[i0] = 7.0569e-40;
+  i0++;  lX[i0] = 1.9055e+01; lY[i0] = 6.6618e-40;
+  i0++;  lX[i0] = 2.0893e+01; lY[i0] = 6.3693e-40;
+  i0++;  lX[i0] = 2.2909e+01; lY[i0] = 6.1596e-40;
+  i0++;  lX[i0] = 2.5119e+01; lY[i0] = 6.0183e-40;
+  i0++;  lX[i0] = 3.1623e+01; lY[i0] = 5.9045e-40;
+  i0++;  lX[i0] = 3.9811e+01; lY[i0] = 6.0684e-40;
+  i0++;  lX[i0] = 5.0119e+01; lY[i0] = 6.4756e-40;
+  i0++;  lX[i0] = 6.3096e+01; lY[i0] = 7.1255e-40;
+  i0++;  lX[i0] = 7.9433e+01; lY[i0] = 8.0411e-40;
+  i0++;  lX[i0] = 1.0000e+02; lY[i0] = 9.2643e-40;
+  i0++;  lX[i0] = 1.2589e+02; lY[i0] = 1.0857e-39;
+  i0++;  lX[i0] = 1.5849e+02; lY[i0] = 1.2900e-39;
+  i0++;  lX[i0] = 1.9953e+02; lY[i0] = 1.5504e-39;
+  i0++;  lX[i0] = 2.5119e+02; lY[i0] = 1.8804e-39;
+  i0++;  lX[i0] = 3.1623e+02; lY[i0] = 2.2976e-39;
+  i0++;  lX[i0] = 1.0000e+03; lY[i0] = 6.7076e-39;
+  i0++;  lX[i0] = 3.1623e+03; lY[i0] = 2.0675e-38;
+  i0++;  lX[i0] = 1.0000e+04; lY[i0] = 6.4850e-38;
   TGraph *lLimit = new TGraph(i0,lX,lY);
-  lLimit->SetLineWidth(2.);   
+  lLimit->SetLineWidth(2.);
   lLimit->SetLineColor(kGreen-3);
-			      
-  return lLimit;	      
-}			      
-			      
+
+  return lLimit;
+}
+
 TGraph*Pico60() {
   int i0 = -1;
   double *lX = new double[1000];
@@ -711,9 +711,11 @@ void plot_wimpxs_sd()
 
     dumpGraphToFile( monoZ_13TeV_2p3fb, "monoZll_observed_90CL_SD.txt" );
 
-    monoZ_13TeV_2p3fb->SetLineWidth(4);
+    monoZ_13TeV_2p3fb->SetLineWidth(305);
+    monoZ_13TeV_2p3fb->SetFillStyle(3005);
     monoZ_13TeV_2p3fb->SetLineColor(kRed+1);
     monoZ_13TeV_2p3fb->SetMarkerColor(kRed+1);
+    monoZ_13TeV_2p3fb->SetFillColor(kRed+1);
     monoZ_13TeV_2p3fb->SetLineStyle(1);
     monoZ_13TeV_2p3fb->SetMarkerStyle(20);
 
@@ -724,7 +726,6 @@ void plot_wimpxs_sd()
     TGraph* pico2l = Pico2L();
     TGraph* icecubeww = IceCubeWW();
     TGraph* icecubett = IceCubett();
-
     mg -> Add(superk,"C");
     mg -> Add(pico60,"C");
     mg -> Add(pico2l,"C");
@@ -755,37 +756,51 @@ void plot_wimpxs_sd()
     double iLumi_7 = 5051;
 
 
-    addText(0.21+0.55,0.37+0.55,0.22,0.12,"90% CL",kGray+2);
+    //~ addText(0.21+0.55,0.47+0.55,0.22,0.12,"90% CL",kBlack);
     //addText(0.19,0.47,0.3,0.04,"Spin Dependent, g_{q}=0.25",kGray+2);
     //addText(0.70,0.92,0.87,0.94,"Spin Dependent, g_{q}=0.25",kGray+2);
-    addText(0.72,0.92,0.87,0.94,"Spin Dependent",kGray+2);
+    addText(0.18,0.95,0.24,0.14,"Spin-dependent            90% CL",kBlack);
 
-    float posx1 = 0.17;
+    float posx1 = 0.65;
     float posx2 = 0.91;
-    float posy1 = 0.15;
-    float posy2 = 0.35;
+    float posy1 = 0.7;
+    float posy2 = 0.9;
     TLegend *leg = new TLegend(posx1, posy1, posx2, posy2);
     leg->SetFillColor(0);
     leg->SetFillStyle(0);
     leg->SetLineColor(0);
     leg->SetTextFont(42);
     leg->SetBorderSize(0);
-    //leg->SetBorderSize(1); 
-    leg->SetMargin(0.15); 
+    //~ leg->SetMargin(0.15);
+    leg->SetTextSize(0.04);
 
 
-    //leg->AddEntry(monoZ_13TeV_2p3fb, "13 TeV, 2.3 fb^{-1}", "L");
-    leg->AddEntry(monoZ_13TeV_2p3fb, "Axial-vector mediator, Dirac fermion #chi, #it{g}_{q} = 0.25, #it{g}_{#chi} = 1 (13 TeV, 2.3 fb^{-1})", "L");
     leg->AddEntry(pico60, "PICO-60", "L"); // actually: PICO-60
     leg->AddEntry(pico2l, "PICO-2L", "L"); // actually: PICO-2L
     leg->AddEntry(superk, "Super-K #tau^{+}#tau^{-}", "L");
-    leg->AddEntry(icecubett, "Ice Cube #tau^{+}#tau^{-}", "L");
+    leg->AddEntry(icecubett, "IceCube #tau^{+}#tau^{-}", "L");
 
     leg->Draw();
 
+    posx1 = 0.17;
+    posx2 = 0.91;
+    posy1 = 0.2;
+    posy2 = 0.37;
+
+    TLegend *leg2 = new TLegend(posx1, posy1, posx2, posy2);
+    leg2->SetFillColor(0);
+    leg2->SetFillStyle(0);
+    leg2->SetLineColor(0);
+    leg2->SetTextFont(42);
+    leg2->SetBorderSize(0);
+
+    leg2->AddEntry(monoZ_13TeV_2p3fb, "#splitline{Axial-vector mediator, Dirac fermion #chi}{#it{g}_{q} = 0.25, #it{g}_{#chi} = 1 (13 TeV, 2.3 fb^{-1})}", "L");
+
+    leg2->Draw();
+
     //addText(0.17,0.40,0.93,0.84,"#splitline{#bf{CMS}}{#it{Preliminary}}",kBlack);
     //addText(0.16, 0.27, 0.946, 0.998, "#bf{CMS}", kBlack);
-    addText(0.20, 0.32, 0.94, 0.878, "#bf{CMS}", kBlack);
+    addText(0.26, 0.38, 0.94, 0.878, "#bf{CMS}", kBlack);
 
     //addText(0.77-0.05,0.97-0.05,0.755+0.1,0.818+0.1,"#splitline{#it{Axial vector}}{#it{coupling}}",kBlack);
     //addText(0.77-0.08,0.97-0.08,0.747+0.1,0.810+0.1,"#splitline{#it{Axial vector}}{#it{coupling}}",kBlack,0,0.05);

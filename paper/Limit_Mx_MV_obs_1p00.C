@@ -1,7 +1,7 @@
 void Limit_Mx_MV_obs_1p00()
 {
 //=========Macro generated from canvas: c2/c2
-//=========  (Tue Sep  6 13:49:09 2016) by ROOT version6.02/13
+//=========  (Mon Oct  3 17:01:40 2016) by ROOT version6.02/13
    TCanvas *c2 = new TCanvas("c2", "c2",0,0,700,600);
    gStyle->SetOptFit(1);
    gStyle->SetOptStat(0);
@@ -4838,7 +4838,7 @@ void Limit_Mx_MV_obs_1p00()
    AText->SetTextAlign(22);
    pt->Draw();
    
-   pt = new TPaveText(0.5,0.6,0.75,0.68,"brNDC");
+   pt = new TPaveText(0.5,0.63,0.75,0.71,"brNDC");
    pt->SetBorderSize(0);
    pt->SetFillColor(0);
    pt->SetFillStyle(0);
@@ -4849,7 +4849,7 @@ void Limit_Mx_MV_obs_1p00()
    AText->SetTextAlign(22);
    pt->Draw();
    
-   pt = new TPaveText(0.5,0.52,0.75,0.6,"brNDC");
+   pt = new TPaveText(0.5,0.55,0.75,0.63,"brNDC");
    pt->SetBorderSize(0);
    pt->SetFillColor(0);
    pt->SetFillStyle(0);
@@ -4860,7 +4860,7 @@ void Limit_Mx_MV_obs_1p00()
    AText->SetTextAlign(22);
    pt->Draw();
    
-   pt = new TPaveText(0.5,0.44,0.75,0.52,"brNDC");
+   pt = new TPaveText(0.5,0.47,0.75,0.55,"brNDC");
    pt->SetBorderSize(0);
    pt->SetFillColor(0);
    pt->SetFillStyle(0);
@@ -4900,7 +4900,7 @@ void Limit_Mx_MV_obs_1p00()
    AText->SetTextAlign(22);
    pt->Draw();
    
-   TLegend *leg = new TLegend(0.53,0.75,0.78,0.9,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.48,0.72,0.78,0.92,NULL,"brNDC");
    leg->SetBorderSize(1);
    leg->SetLineColor(1);
    leg->SetLineStyle(1);
@@ -4925,7 +4925,7 @@ void Limit_Mx_MV_obs_1p00()
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
    entry->SetTextFont(42);
-   entry=leg->AddEntry("","Theory Uncertainty","L");
+   entry=leg->AddEntry("","Theo. uncertainty","L");
 
    ci = TColor::GetColor("#ff3333");
    entry->SetLineColor(ci);

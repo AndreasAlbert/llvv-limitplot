@@ -325,7 +325,7 @@ void plot2D_DMV_obs_0p25(TString myfolder = "", TString tag="", bool savePlots=t
     addText(0.55, 0.84, 0.946, 0.996, "2.3 fb^{-1} (13 TeV)",kBlack);
     addText(0.16, 0.27, 0.946, 0.998, "#bf{CMS}", kBlack);
 
-    double deltay = 0.2;
+    double deltay = 0.17;
     double deltax = 0.03;
     if( tag == "MV" ) addText(0.50+deltax,0.75+deltax,0.46+deltay,0.54+deltay,"Vector mediator",kBlack, 0, 0.04);
     if( tag == "MA" ) addText(0.50+deltax,0.75+deltax,0.46+deltay,0.54+deltay,"Axial-vector mediator",kBlack, 0, 0.04);
@@ -335,10 +335,10 @@ void plot2D_DMV_obs_0p25(TString myfolder = "", TString tag="", bool savePlots=t
     addText(-0.12,0.9,0.6,1.0,"#it{M}_{med} = 2#it{m}_{#chi}",getDiagonalColor(), 65, 0.04);
     addText(0.54,0.84,0.34,0.44,"#Omega_{c} #times h^{2} = 0.12",getRelicColor(), 30, 0.04);
 
-    float posx1 = 0.53;
+    float posx1 = 0.48;
     float posx2 = 0.78;
-    float posy1 = 0.75;
-    float posy2 = 0.9;
+    float posy1 = 0.72;
+    float posy2 = 0.92;
     TLegend *leg = new TLegend(posx1, posy1, posx2, posy2);
     leg->SetFillColor(kWhite);
     leg->SetFillStyle(1001);
@@ -349,7 +349,7 @@ void plot2D_DMV_obs_0p25(TString myfolder = "", TString tag="", bool savePlots=t
     leg->SetBorderSize(1);
     leg->SetHeader("#sigma/#sigma_{theo}=1:");
     leg->AddEntry(exclusion_obs, "Observed", "L");
-    leg->AddEntry(exclusion_obs_theo_p1s, "Theory Uncertainty", "L");
+    leg->AddEntry(exclusion_obs_theo_p1s, "Theo. uncertainty", "L");
     leg->AddEntry(exclusion_exp, "Expected", "L");
     leg->AddEntry(exclusion_p1s, "Expected #pm 1 s.d.", "L");
     

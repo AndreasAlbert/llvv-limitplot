@@ -79,8 +79,10 @@ void plot_wimpxs_si()
 
     dumpGraphToFile( monoZ_13TeV_2p3fb, "monoZll_observed_90CL_SI.txt" );
 
-    monoZ_13TeV_2p3fb->SetLineWidth(4);
+    monoZ_13TeV_2p3fb->SetLineWidth(305);
+    monoZ_13TeV_2p3fb->SetFillStyle(3005);
     monoZ_13TeV_2p3fb->SetLineColor(kRed+1);
+    monoZ_13TeV_2p3fb->SetFillColor(kRed+1);
     monoZ_13TeV_2p3fb->SetMarkerColor(kRed+1);
     monoZ_13TeV_2p3fb->SetLineStyle(1);
     monoZ_13TeV_2p3fb->SetMarkerStyle(20);
@@ -121,7 +123,7 @@ void plot_wimpxs_si()
 
     mg->Draw("A");
     mg->SetMinimum(1e-50);
-    mg->SetMaximum(1e-34);
+    mg->SetMaximum(1e-35);
     mg->GetXaxis()->SetLimits(m_dm[0], 1e3);
     mg->GetXaxis()->SetTitle(parName.c_str());
     mg->GetXaxis()->SetTitleOffset(1.00);
@@ -144,25 +146,25 @@ void plot_wimpxs_si()
     double iLumi_7 = 5051;
 
 
-    addText(0.21+0.55,0.37+0.55,0.22,0.12,"90% CL",kGray+2);
-    addText(0.70,0.92,0.87,0.94,"Spin Independent",kGray+2);
+    //~ addText(0.21+0.55,0.37+0.55,0.22,0.12,"90% CL",kBlack);
+    addText(0.18,0.95,0.24,0.14,"Spin-independent          90% CL",kBlack);
+
     addText(0.20, 0.32, 0.94, 0.878, "#bf{CMS}", kBlack);
 
     //#################################################
-    float posx1 = 0.17;
+    float posx1 = 0.6;
     float posx2 = 0.91;
-    float posy1 = 0.15;
-    float posy2 = 0.33;
+    float posy1 = 0.45;
+    float posy2 = 0.65;
     TLegend *leg = new TLegend(posx1, posy1, posx2, posy2);
     leg->SetFillColor(0);
     leg->SetFillStyle(0);
     leg->SetLineColor(0);
     leg->SetTextFont(42);
+    leg->SetTextSize(0.04);
     leg->SetBorderSize(0);
-    leg->SetMargin(0.15); 
 
 
-    leg->AddEntry(monoZ_13TeV_2p3fb, "Vector mediator, Dirac fermion #chi, #it{g}_{q} = 0.25, #it{g}_{#chi} = 1 (13 TeV, 2.3 fb^{-1})", "L");
     leg->AddEntry(supercdms, "CDMSLite 2015", "L");
     leg->AddEntry(lux2016, "LUX 2016", "L");
     leg->AddEntry(PandaXII, "PandaX-II", "L");
@@ -170,6 +172,21 @@ void plot_wimpxs_si()
 
     leg->Draw();
 
+    posx1 = 0.17;
+    posx2 = 0.91;
+    posy1 = 0.2;
+    posy2 = 0.37;
+
+    TLegend *leg2 = new TLegend(posx1, posy1, posx2, posy2);
+    leg2->SetFillColor(0);
+    leg2->SetFillStyle(0);
+    leg2->SetLineColor(0);
+    leg2->SetTextFont(42);
+    leg2->SetBorderSize(0);
+
+    leg2->AddEntry(monoZ_13TeV_2p3fb, "#splitline{Vector mediator, Dirac fermion #chi}{#it{g}_{q} = 0.25, #it{g}_{#chi} = 1 (13 TeV, 2.3 fb^{-1})}", "L");
+
+    leg2->Draw();
 
     if( savePlots ) {
         string plotName = parName;

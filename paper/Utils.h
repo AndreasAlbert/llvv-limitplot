@@ -271,66 +271,66 @@ TGraph *InterpolateDM(TString tag, TGraph2D* h_Limit, double sqrt_gxgq=1.0, doub
 
     int cnt=0;
     // Let's try "diagonal" interpolation
-    double x0 = xctr; // 200. for MV=gQ=1, 120. for MA-gQ=1, 120. for MV-gQ=0.25 
+    double x0 = xctr; // 200. for MV=gQ=1, 120. for MA-gQ=1, 120. for MV-gQ=0.25
     double y0 = yctr;
-    double xpre = -1.; 
-    double ypre = -1.; 
-    double deltarpre = 999.; 
-    double skippedDeltar = 0.; 
-    //double deltarmax = 2000./Nsteps; 
+    double xpre = -1.;
+    double ypre = -1.;
+    double deltarpre = 999.;
+    double skippedDeltar = 0.;
+    //double deltarmax = 2000./Nsteps;
     //double xL = xmax - x0;
     //double yL = ymax - y0;
-    //double cosmin = xL/std::sqrt(xL*xL + yL*yL); 
+    //double cosmin = xL/std::sqrt(xL*xL + yL*yL);
     double alphamin = 0.001;
     double alphamax = 1.0*TMath::Pi();
     //double alphamin = 0.8*TMath::Pi();
     //double alphamax = 0.9*TMath::Pi();
     double deltaAlpha = (alphamax-alphamin)/Nsteps;
-    double oldDeltaAlpha = deltaAlpha; 
-    bool notyetchanged_1(true), notyetchanged_2(true), notyetchanged_3(true); 
+    double oldDeltaAlpha = deltaAlpha;
+    bool notyetchanged_1(true), notyetchanged_2(true), notyetchanged_3(true);
 
-    double muvalratiomax = 0.01; 
-    double maxstepdist = 1.5; 
-    double deltarhored = 0.01; 
+    double muvalratiomax = 0.01;
+    double maxstepdist = 1.5;
+    double deltarhored = 0.01;
 
     for(double alpha=alphamin; alpha<alphamax; alpha+=deltaAlpha) {
-	double cosa = std::cos(alpha); 
-	double sina = std::sin(alpha); 
-	//double rhoL = cosa>cosmin ? xL/cosa : yL/sina; 
-	double rhomax = 1000.; 
-	double deltarho = 0.001 * std::sqrt(cosa*cosa*xmax*xmax + sina*sina*ymax*ymax); // Adjust step with angle 
-	bool islargestep = true; 
+	double cosa = std::cos(alpha);
+	double sina = std::sin(alpha);
+	//double rhoL = cosa>cosmin ? xL/cosa : yL/sina;
+	double rhomax = 1000.;
+	double deltarho = 0.001 * std::sqrt(cosa*cosa*xmax*xmax + sina*sina*ymax*ymax); // Adjust step with angle
+	bool islargestep = true;
 
         double xsel(0.), ysel(0.), muvalratiosel(999999.), deltarsel(999.);
         //for(int i=1; i<maxTries; i++) {
 	  //double rhoL = std::sqrt( std::pow(xL*std::cos(alpha),2 ) + std::pow(yL*std::sin(alpha), 2) );
 	  //double rho = (-1.)*rhoL*std::log10(1-i*1./maxTries);
-	    
+
         for(double rho=deltarho; rho<rhomax; rho+=deltarho) {
             double x = x0 + rho*std::cos(alpha);
             double y = y0 + rho*std::sin(alpha);
-	    double deltar = xpre>0. ? sqrt(std::pow(x-xpre, 2) + std::pow(y-ypre, 2)) : 999.; 
-            if(x>=xmax || y>=ymax || x<=xmin || y<=ymin) break; // out of boundary 
-            double muval = h_Limit->Interpolate(x,y); 
-	    if(muval>(1.+muvalratiomax)*sqrt_gxgq) break; 
-	    if(islargestep && muval>(1.-2.*muvalratiomax)*sqrt_gxgq) { 
-	      deltarho *= deltarhored; 
-	      islargestep = false; 
-	    } 
-            double muvalratio = fabs(muval-sqrt_gxgq)/sqrt_gxgq; 
-            if(muvalratio<muvalratiomax && deltar<maxstepdist*deltarpre) { 
+	    double deltar = xpre>0. ? sqrt(std::pow(x-xpre, 2) + std::pow(y-ypre, 2)) : 999.;
+            if(x>=xmax || y>=ymax || x<=xmin || y<=ymin) break; // out of boundary
+            double muval = h_Limit->Interpolate(x,y);
+	    if(muval>(1.+muvalratiomax)*sqrt_gxgq) break;
+	    if(islargestep && muval>(1.-2.*muvalratiomax)*sqrt_gxgq) {
+	      deltarho *= deltarhored;
+	      islargestep = false;
+	    }
+            double muvalratio = fabs(muval-sqrt_gxgq)/sqrt_gxgq;
+            if(muvalratio<muvalratiomax && deltar<maxstepdist*deltarpre) {
 	        if(debug && verboseDebug) printf(" --- Candidate: (x, y;  mu; delta-r) = (%7.3f, %7.3f;  %8.6f;  %7.3f [prev. %7.3f])", x, y, muval, deltar, deltarpre);
 
-	        //if( (deltar>998. && muvalratio<muvalratiosel) || ( deltar<998. && deltar<deltarsel) ) { 
-                if(muvalratio<muvalratiosel) { 
-		    if(debug && verboseDebug) printf("  --->  selected!\n"); 
+	        //if( (deltar>998. && muvalratio<muvalratiosel) || ( deltar<998. && deltar<deltarsel) ) {
+                if(muvalratio<muvalratiosel) {
+		    if(debug && verboseDebug) printf("  --->  selected!\n");
                     xsel = x;
                     ysel = y;
                     muvalratiosel = muvalratio;
-		    deltarsel = deltar; 
+		    deltarsel = deltar;
                 }
                 else {
-		    if(debug && verboseDebug) printf("\n"); 
+		    if(debug && verboseDebug) printf("\n");
                 }
             }
         } // end for(int i=1; i<maxTries; i++)
@@ -339,57 +339,57 @@ TGraph *InterpolateDM(TString tag, TGraph2D* h_Limit, double sqrt_gxgq=1.0, doub
 	    //if(alpha<0.60 || (alpha>0.61 && alpha<0.65) || alpha>0.67) // for MV-gQ=0.25
 	    h_->SetPoint(nnpts++, xsel, ysel);
 	    //if(deltarsel<deltarmax || deltarsel>998.) h_->SetPoint(nnpts++, xsel, ysel);
-            if(debug) printf(" *** Selected: (x, y;  mu; delta-r) = (%7.3f, %7.3f;  %8.6f;  %7.3f [prev. %7.3f])\n", xsel, ysel, muvalratiosel, deltarsel, deltarpre); 
-	    xpre = xsel; 
-	    ypre = ysel; 
-	    deltarpre = deltarsel; 
-	    skippedDeltar = 0.; 
+            if(debug) printf(" *** Selected: (x, y;  mu; delta-r) = (%7.3f, %7.3f;  %8.6f;  %7.3f [prev. %7.3f])\n", xsel, ysel, muvalratiosel, deltarsel, deltarpre);
+	    xpre = xsel;
+	    ypre = ysel;
+	    deltarpre = deltarsel;
+	    skippedDeltar = 0.;
         }
 	else {
-	    if(skippedDeltar==0.) skippedDeltar = deltarpre; 
-	    deltarpre += skippedDeltar; 
-	} 
+	    if(skippedDeltar==0.) skippedDeltar = deltarpre;
+	    deltarpre += skippedDeltar;
+	}
         if(debug && verboseDebug) std::cout << std::endl;
 
-	// Change step 
+	// Change step
         if(notyetchanged_1 && alpha<0.3*TMath::Pi()) {
-	    notyetchanged_1 = false; 
-	    double multiplyStep = 0.1; 
-	    double oldDeltaAlpha = deltaAlpha; 
-	    deltaAlpha = multiplyStep * ((alphamax-alphamin)/Nsteps); 
-	    if(deltarpre<998. && deltaAlpha>oldDeltaAlpha) deltarpre *= (deltaAlpha/oldDeltaAlpha); 
-	    deltarhored = 0.01; 
-	    muvalratiomax = 0.01; 
-	    maxstepdist = 1.5; 
+	    notyetchanged_1 = false;
+	    double multiplyStep = 0.1;
+	    double oldDeltaAlpha = deltaAlpha;
+	    deltaAlpha = multiplyStep * ((alphamax-alphamin)/Nsteps);
+	    if(deltarpre<998. && deltaAlpha>oldDeltaAlpha) deltarpre *= (deltaAlpha/oldDeltaAlpha);
+	    deltarhored = 0.01;
+	    muvalratiomax = 0.01;
+	    maxstepdist = 1.5;
             //xL = x0 - xmin;
-	    //if(xL<=0) break; 
-	    //cosmin = xL/std::sqrt(xL*xL + yL*yL); 
+	    //if(xL<=0) break;
+	    //cosmin = xL/std::sqrt(xL*xL + yL*yL);
         }
         if(notyetchanged_2 && alpha>=0.3*TMath::Pi()) {
-	    notyetchanged_2 = false; 
-	    double multiplyStep = 2.0; 
-	    double oldDeltaAlpha = deltaAlpha; 
-	    deltaAlpha = multiplyStep * ((alphamax-alphamin)/Nsteps); 
-	    if(deltarpre<998. && deltaAlpha>oldDeltaAlpha) deltarpre *= (deltaAlpha/oldDeltaAlpha); 
-	    deltarhored = 0.01; 
-	    muvalratiomax = 0.01; 
-	    maxstepdist = 2.0; 
+	    notyetchanged_2 = false;
+	    double multiplyStep = 2.0;
+	    double oldDeltaAlpha = deltaAlpha;
+	    deltaAlpha = multiplyStep * ((alphamax-alphamin)/Nsteps);
+	    if(deltarpre<998. && deltaAlpha>oldDeltaAlpha) deltarpre *= (deltaAlpha/oldDeltaAlpha);
+	    deltarhored = 0.01;
+	    muvalratiomax = 0.01;
+	    maxstepdist = 2.0;
             //xL = x0 - xmin;
-	    //if(xL<=0) break; 
-	    //cosmin = xL/std::sqrt(xL*xL + yL*yL); 
+	    //if(xL<=0) break;
+	    //cosmin = xL/std::sqrt(xL*xL + yL*yL);
         }
         if(notyetchanged_3 && alpha>0.5*TMath::Pi()) {
             notyetchanged_3 = false;
-	    double multiplyStep = 4.0; 
-	    double oldDeltaAlpha = deltaAlpha; 
-	    deltaAlpha = multiplyStep * ((alphamax-alphamin)/Nsteps); 
-	    if(deltarpre<998. && deltaAlpha>oldDeltaAlpha) deltarpre *= (deltaAlpha/oldDeltaAlpha); 
-	    deltarpre *= (deltaAlpha/oldDeltaAlpha); 
-	    muvalratiomax = 0.05; 
-	    maxstepdist = 3.0; 
+	    double multiplyStep = 4.0;
+	    double oldDeltaAlpha = deltaAlpha;
+	    deltaAlpha = multiplyStep * ((alphamax-alphamin)/Nsteps);
+	    if(deltarpre<998. && deltaAlpha>oldDeltaAlpha) deltarpre *= (deltaAlpha/oldDeltaAlpha);
+	    deltarpre *= (deltaAlpha/oldDeltaAlpha);
+	    muvalratiomax = 0.05;
+	    maxstepdist = 3.0;
             //xL = x0 - xmin;
-	    //if(xL<=0) break; 
-	    //cosmin = xL/std::sqrt(xL*xL + yL*yL); 
+	    //if(xL<=0) break;
+	    //cosmin = xL/std::sqrt(xL*xL + yL*yL);
         }
     }
 
@@ -397,6 +397,68 @@ TGraph *InterpolateDM(TString tag, TGraph2D* h_Limit, double sqrt_gxgq=1.0, doub
     std::cout << "Finish interpolation." << std::endl;
 
     return h_;
+}
+TGraph *InterpolateDMXY(TGraph2D* h_Limit, double sqrt_gxgq=1.0, double xmin=1, double xmax=1000, double ymin=1, double ymax=200)
+{
+    std::cout << "Start interpolation." << std::endl;
+    TGraph *h_ =  new TGraph();
+    TRandom *r0 = new TRandom();
+
+    int maxTries = 1000;
+    int nnpts=0;
+    int Nsteps = 100;
+    int stepsWithoutHit = 0;
+    double x(0.), y(0.),mu_val(0.);
+
+    for(int j=0; j<Nsteps; j++) {
+        x = j*(xmax-xmin)/Nsteps;
+        for(int i=0; i<maxTries; i++) {
+            y=r0->Uniform(ymin,ymax);
+            mu_val = h_Limit->Interpolate(x,y);
+            if(fabs(mu_val-sqrt_gxgq)/sqrt_gxgq<1e-3) {
+                h_->SetPoint(nnpts,x,y);
+                nnpts++;
+                break;
+            }
+            if( i == maxTries - 1 ) stepsWithoutHit++;
+        }
+        //~ if( stepsWithoutHit > 10 ) break;
+    }
+
+    stepsWithoutHit = 0;
+    //~ maxTries = 100;
+    //~ Nsteps = 20;
+    for(int j=0; j<Nsteps; j++) {
+        y = j*(ymax-ymin)/Nsteps;
+        for(int i=0; i<maxTries; i++) {
+            x=r0->Uniform(xmin,xmax);
+            mu_val = h_Limit->Interpolate(x,y);
+            if(fabs(mu_val-sqrt_gxgq)/sqrt_gxgq<1e-3) {
+                h_->SetPoint(nnpts,x,y);
+                nnpts++;
+                break;
+            }
+            if( i == maxTries - 1 ) stepsWithoutHit++;
+        }
+        //~ if( stepsWithoutHit > 10 ) break;
+    }
+
+    for(int i=0; i<50000; i++) {
+        x=r0->Uniform(xmin,xmax);
+        mu_val = h_Limit->Interpolate(x,0.1051);
+        if(fabs(mu_val-sqrt_gxgq)/sqrt_gxgq<1e-4) {
+            h_->SetPoint(nnpts,x,0.1051);
+            nnpts++;
+            break;
+        }
+        if( i == maxTries - 1 ) stepsWithoutHit++;
+    }
+
+    applyStyleToGraph(h_);
+    std::cout << "Finish interpolation." << std::endl;
+    h_->Sort(&TGraph::CompareY);
+    return h_;
+    return sortGraph(h_);
 }
 
 
@@ -438,4 +500,19 @@ int getDiagonalColor() {
 }
 int getObservedColor() {
     return kRed-4;
+}
+double get_limit_from_file( TString file_path ) {
+
+    double limit=-1;
+    TFile myfile( file_path );
+    if( myfile.IsOpen()==true && myfile.IsZombie()==false) {
+        TTree *t = (TTree*)myfile.Get("limit");
+        if( t != 0 ) {
+            t->SetBranchAddress("limit",    & limit);
+            t->GetEntry(0);
+        }
+        myfile.Close();
+    }
+    std::cout << file_path << " " << limit << std::endl;
+    return limit;
 }

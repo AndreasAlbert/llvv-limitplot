@@ -330,10 +330,10 @@ void plot2D_DMA_obs_1p00(TString myfolder = "", TString tag="", bool savePlots=t
     addText(-0.12,0.9,0.6+dy,1.0+dy,"#it{M}_{med} = 2#it{m}_{#chi}",getDiagonalColor(), 65, 0.04);
     addText(0.53,0.63,0.25,0.35,"#Omega_{c} #times h^{2} = 0.12",getRelicColor(), 40, 0.04);
 
-    float posx1 = 0.53;
+    float posx1 = 0.48;
     float posx2 = 0.78;
-    float posy1 = 0.75;
-    float posy2 = 0.9;
+    float posy1 = 0.72;
+    float posy2 = 0.92;
     TLegend *leg = new TLegend(posx1, posy1, posx2, posy2);
     leg->SetFillColor(kWhite);
     leg->SetFillStyle(1001);
@@ -344,7 +344,7 @@ void plot2D_DMA_obs_1p00(TString myfolder = "", TString tag="", bool savePlots=t
     leg->SetBorderSize(1);
     leg->SetHeader("#sigma/#sigma_{theo}=1:");
     leg->AddEntry(exclusion_obs, "Observed", "L");
-    leg->AddEntry(exclusion_obs_theo_p1s, "Theory Uncertainty", "L");
+    leg->AddEntry(exclusion_obs_theo_p1s, "Theo. uncertainty", "L");
     leg->AddEntry(exclusion_exp, "Expected", "L");
     leg->AddEntry(exclusion_p1s, "Expected #pm 1 s.d.", "L");
     

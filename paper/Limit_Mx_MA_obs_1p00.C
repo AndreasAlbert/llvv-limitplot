@@ -1,7 +1,7 @@
 void Limit_Mx_MA_obs_1p00()
 {
 //=========Macro generated from canvas: c2/c2
-//=========  (Tue Sep  6 13:48:32 2016) by ROOT version6.02/13
+//=========  (Mon Oct  3 17:00:44 2016) by ROOT version6.02/13
    TCanvas *c2 = new TCanvas("c2", "c2",0,0,700,600);
    gStyle->SetOptFit(1);
    gStyle->SetOptStat(0);
@@ -4909,7 +4909,7 @@ void Limit_Mx_MA_obs_1p00()
    AText->SetTextAlign(22);
    pt->Draw();
    
-   TLegend *leg = new TLegend(0.53,0.75,0.78,0.9,NULL,"brNDC");
+   TLegend *leg = new TLegend(0.48,0.72,0.78,0.92,NULL,"brNDC");
    leg->SetBorderSize(1);
    leg->SetLineColor(1);
    leg->SetLineStyle(1);
@@ -4934,7 +4934,7 @@ void Limit_Mx_MA_obs_1p00()
    entry->SetMarkerStyle(21);
    entry->SetMarkerSize(1);
    entry->SetTextFont(42);
-   entry=leg->AddEntry("","Theory Uncertainty","L");
+   entry=leg->AddEntry("","Theo. uncertainty","L");
 
    ci = TColor::GetColor("#ff3333");
    entry->SetLineColor(ci);
