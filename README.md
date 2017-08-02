@@ -30,6 +30,9 @@ root -l -b -q plotDM_EWK_K1K2.cc"(\"$carddir/MEWK\")"
 root -l -b -q plotDM_EWK_K1K2_mu.cc"(\"$carddir/MEWK\")"
 root -l -b -q plotUnpart.cc"(\"$carddir/Unpart\")"
 root -l -b -q plotADD.cc"(\"$carddir/ADD\")"
+root -l -b -q plotS_MChi_1_mu.cc"(\"$carddir/NLOS\")"
+root -l -b -q plotP_MChi_1_mu.cc"(\"$carddir/NLOP\")"
+
 
 root -l -b -q plot_wimpxs_sd.cc;
 root -l -b -q plot_wimpxs_si.cc;
